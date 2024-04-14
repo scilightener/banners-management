@@ -1,0 +1,203 @@
+{
+	"info": {
+		"_postman_id": "b26e54ed-82e0-497e-af03-4d49933b58ce",
+		"name": "avito-task-banners-scilightener",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25308949"
+	},
+	"item": [
+		{
+			"name": "user_banner",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTY2MTg5MzYsInJvbGUiOiJ1c2VyIn0.CPBQiRE5X4bS8-Z0Cm0BgJ0XnmdifET67GPDh9GLsjI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:22313/user_banner?tag_id=1&feature_id=11",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "22313",
+					"path": [
+						"user_banner"
+					],
+					"query": [
+						{
+							"key": "tag_id",
+							"value": "1"
+						},
+						{
+							"key": "feature_id",
+							"value": "11"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "banner",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTY2MTg5NzYsInJvbGUiOiJhZG1pbiJ9.omKnLgoGJCyUxqorQ6FkPp5jEILuGOdisDmgfx8umRY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:22313/banner?tag_id=6&feature_id=1&limit=20&offset=0",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "22313",
+					"path": [
+						"banner"
+					],
+					"query": [
+						{
+							"key": "tag_id",
+							"value": "6"
+						},
+						{
+							"key": "feature_id",
+							"value": "1"
+						},
+						{
+							"key": "limit",
+							"value": "20"
+						},
+						{
+							"key": "offset",
+							"value": "0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "banner",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTY2MTg5NzYsInJvbGUiOiJhZG1pbiJ9.omKnLgoGJCyUxqorQ6FkPp5jEILuGOdisDmgfx8umRY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"tag_ids\": [1],\r\n  \"feature_id\": 11,\r\n  \"content\": {\r\n    \"title\": \"word\",\r\n    \"text\": \"some text\",\r\n    \"url\": \"https://google.com\"\r\n  },\r\n  \"is_active\": false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:22313/banner",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "22313",
+					"path": [
+						"banner"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "banner/{id}",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTY2MTg5NzYsInJvbGUiOiJhZG1pbiJ9.omKnLgoGJCyUxqorQ6FkPp5jEILuGOdisDmgfx8umRY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"tag_ids\": [\r\n        1,\r\n        2,\r\n        3,\r\n        6\r\n    ],\r\n    \"feature_id\": 70,\r\n    \"content\": {\r\n        \"title\": \"title12wfsadf34\",\r\n        \"text\": \"some tasdfsdafext\",\r\n        \"url\": \"https://google.com/youtube\"\r\n    },\r\n    \"is_active\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:22313/banner/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "22313",
+					"path": [
+						"banner",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "banner/{id}",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTY2MTg5NzYsInJvbGUiOiJhZG1pbiJ9.omKnLgoGJCyUxqorQ6FkPp5jEILuGOdisDmgfx8umRY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:22313/banner/12",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "22313",
+					"path": [
+						"banner",
+						"12"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

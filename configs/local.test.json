@@ -1,0 +1,19 @@
+{
+  "env": "local",
+  "db": {
+    "host": "localhost",
+    "port": 22413,
+    "user": "scilightener",
+    "pass": "hell12345678yeah",
+    "db_name": "banners-task-test"
+  },
+  "jwt_settings": {
+    "secret": "somemegasecuresecretkeysosecurethatnooneknowstrala1alalaIaLOLOL0",
+    "expire": "1000h"
+  },
+  "http_server": {
+    "address": "localhost:22314",
+    "timeout": "1000h",
+    "idle_timeout": "1000h"
+  }
+}

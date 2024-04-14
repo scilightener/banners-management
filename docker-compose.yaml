@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  banners-postgres:
+    image: postgres:alpine
+    ports:
+      - "22413:5432"
+    environment:
+      - POSTGRES_USER=scilightener
+      - POSTGRES_PASSWORD=hell12345678yeah
+      - POSTGRES_DB=banners-task
+
+  banners-api:
+    image: banners-api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "22313:22313"
+    depends_on:
+      - banners-postgres

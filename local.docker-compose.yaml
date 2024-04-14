@@ -1,0 +1,10 @@
+version: '3'
+services:
+  banners-postgres:
+    image: postgres:alpine
+    ports:
+      - "22413:5432"
+    environment:
+      - POSTGRES_USER=scilightener
+      - POSTGRES_PASSWORD=hell12345678yeah
+      - POSTGRES_DB=banners-task

@@ -32,9 +32,13 @@ type Suit struct {
 func Setup(t *testing.T) *Suit {
 	t.Helper()
 
+	//goland:noinspection GoVetLostCancel
 	once.Do(func() {
 		t.Helper()
-		ctx, _ := context.WithTimeout(context.Background(), time.Minute)
+		// cancel function is discarded because this context is used
+		// by the server, and should live as long as context.Background
+		// but no longer than one minute (time for all tests to finish)
+		ctx, _ := context.WithTimeout(context.Background(), time.Minute) //nolint:govet // why: see above
 		args := []string{"-migrations-path", "../migrations", "-direction", "up"}
 		getenv := func(s string) (string, bool) {
 			if s == "CONFIG_PATH" {

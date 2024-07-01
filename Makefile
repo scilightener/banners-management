@@ -35,7 +35,6 @@ docker-deps:
 	@echo "Running dependencies in docker..."
 	@docker-compose -f local.docker-compose.yaml up -d
 	@CONFIG_PATH=./configs/local.docker.deps.json go run ./cmd/migrator -migrations-path ./migrations -direction up
-	@make run
 
 docker-deps-down:
 	@echo "Stopping dependencies in docker..."

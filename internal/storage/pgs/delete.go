@@ -1,9 +1,10 @@
 package pgs
 
 import (
-	"avito-test-task/internal/storage"
 	"context"
 	"fmt"
+
+	"avito-test-task/internal/storage/repo"
 )
 
 func (s *Storage) DeleteBanner(ctx context.Context, id int64) error {
@@ -15,7 +16,7 @@ func (s *Storage) DeleteBanner(ctx context.Context, id int64) error {
 	}
 
 	if r.RowsAffected() == 0 {
-		return fmt.Errorf("%s: %w", comp, storage.ErrBannerNotFound)
+		return fmt.Errorf("%s: %w", comp, repo.ErrBannerNotFound)
 	}
 
 	return nil

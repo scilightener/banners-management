@@ -4,14 +4,15 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"strconv"
 	"strings"
 
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgconn"
 
 	"avito-test-task/internal/models/entity"
-	"avito-test-task/internal/storage"
 	"avito-test-task/internal/storage/pgs/common/bannertag"
+	"avito-test-task/internal/storage/repo"
 )
 
 func (s *Storage) UpdateBanner(ctx context.Context, b *entity.UpdatableBanner) (err error) {
@@ -32,7 +33,7 @@ func (s *Storage) UpdateBanner(ctx context.Context, b *entity.UpdatableBanner) (
 	err = t.Scan(&b.ID)
 	if err != nil {
 		if errors.Is(err, pgx.ErrNoRows) {
-			return fmt.Errorf("%s: %w", comp, storage.ErrBannerNotFound)
+			return fmt.Errorf("%s: %w", comp, repo.ErrBannerNotFound)
 		}
 		return fmt.Errorf("%s: %w", comp, err)
 	}
@@ -56,7 +57,7 @@ func (s *Storage) UpdateBanner(ctx context.Context, b *entity.UpdatableBanner) (
 	err = tx.Commit(ctx)
 	pgErr := new(pgconn.PgError)
 	if errors.As(err, &pgErr) && pgErr.Code == "P0001" { // P0001 when trigger is fired
-		return fmt.Errorf("%s: %w", comp, storage.ErrBannerAlreadyExists)
+		return fmt.Errorf("%s: %w", comp, repo.ErrBannerAlreadyExists)
 	} else if err != nil {
 		return fmt.Errorf("%s: %w", comp, err)
 	}
@@ -74,31 +75,31 @@ func buildUpdateBannerQuery(b *entity.UpdatableBanner) (string, []any) {
 
 	if b.Title != nil {
 		sb.WriteString("title = $")
-		sb.WriteString(fmt.Sprintf("%d, ", len(args)+1))
+		sb.WriteString(strconv.Itoa(len(args)+1) + ", ")
 		args = append(args, *b.Title)
 	}
 
 	if b.Text != nil {
 		sb.WriteString("text = $")
-		sb.WriteString(fmt.Sprintf("%d, ", len(args)+1))
+		sb.WriteString(strconv.Itoa(len(args)+1) + ", ")
 		args = append(args, *b.Text)
 	}
 
 	if b.FeatureID != nil {
 		sb.WriteString("feature_id = $")
-		sb.WriteString(fmt.Sprintf("%d, ", len(args)+1))
+		sb.WriteString(strconv.Itoa(len(args)+1) + ", ")
 		args = append(args, *b.FeatureID)
 	}
 
 	if b.IsActive != nil {
 		sb.WriteString("is_active = $")
-		sb.WriteString(fmt.Sprintf("%d, ", len(args)+1))
+		sb.WriteString(strconv.Itoa(len(args)+1) + ", ")
 		args = append(args, *b.IsActive)
 	}
 
 	if b.URL != nil {
 		sb.WriteString("url = $")
-		sb.WriteString(fmt.Sprintf("%d, ", len(args)+1))
+		sb.WriteString(strconv.Itoa(len(args)+1) + ", ")
 		args = append(args, *b.URL)
 	}
 

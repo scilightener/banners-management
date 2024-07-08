@@ -1,25 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="banners-task@localhost" uuid="bee548aa-6165-4b9d-80fd-90f6245ee870">
+    <data-source source="LOCAL" name="banners-ms" uuid="f6e17819-e9af-408d-a500-c8f8ba3e4d49">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
+      <remarks>banners-management-microservice</remarks>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jdbc:postgresql://localhost:5432/banners-task</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="banners-task-test@localhost" uuid="f160fe8c-babb-40a2-80a3-70697ae28a2c">
-      <driver-ref>postgresql</driver-ref>
+    <data-source source="LOCAL" name="banners-cache" uuid="26a9e184-c191-41a2-a9c2-19ddd6c5a84f">
+      <driver-ref>redis</driver-ref>
       <synchronize>true</synchronize>
-      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://localhost:5432/banners-task-test</jdbc-url>
-      <working-dir>$ProjectFileDir$</working-dir>
-    </data-source>
-    <data-source source="LOCAL" name="banners-task@localhost [2]" uuid="ea7fadf4-b12d-43c1-97e8-4597ba335b5e">
-      <driver-ref>postgresql</driver-ref>
-      <synchronize>true</synchronize>
-      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://localhost:22413/banners-task</jdbc-url>
+      <remarks>banners-management-cache</remarks>
+      <jdbc-driver>jdbc.RedisDriver</jdbc-driver>
+      <jdbc-url>jdbc:redis://localhost:6379/0</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>

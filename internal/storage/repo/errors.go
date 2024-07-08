@@ -1,8 +1,9 @@
-package storage
+package repo
 
 import (
-	"avito-test-task/internal/lib/api/msg"
 	"errors"
+
+	"avito-test-task/internal/lib/api/msg"
 )
 
 var (

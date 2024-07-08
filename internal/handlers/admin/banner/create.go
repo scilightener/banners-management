@@ -3,8 +3,9 @@ package banner
 import (
 	"avito-test-task/internal/lib/api"
 	"avito-test-task/internal/lib/api/jsn"
-	"avito-test-task/internal/models/dto/banner"
+	bannerdto "avito-test-task/internal/models/dto/banner"
 	"avito-test-task/internal/service"
+	bannersvc "avito-test-task/internal/service/banner"
 	"errors"
 	"log/slog"
 	"net/http"
@@ -15,7 +16,7 @@ type CreateResponse struct {
 	api.Response
 }
 
-func NewCreateHandler(svc *service.Banner, log *slog.Logger) http.HandlerFunc {
+func NewCreateHandler(svc *bannersvc.Service, log *slog.Logger) http.HandlerFunc {
 	const comp = "handlers.banner.create"
 
 	return func(w http.ResponseWriter, r *http.Request) {
@@ -24,7 +25,7 @@ func NewCreateHandler(svc *service.Banner, log *slog.Logger) http.HandlerFunc {
 			slog.String(api.RequestIDKey, api.RequestID(r)),
 		)
 
-		req := new(banner.CreateDTO)
+		req := new(bannerdto.CreateDTO)
 		err := jsn.DecodeRequest(r, req, log)
 		if err != nil {
 			jsn.EncodeResponse(w, http.StatusBadRequest, api.ErrResponse(err.Error()), log)
@@ -32,7 +33,7 @@ func NewCreateHandler(svc *service.Banner, log *slog.Logger) http.HandlerFunc {
 		}
 
 		id, err := svc.SaveBanner(r.Context(), *req)
-		if errors.Is(err, service.ErrBannerAlreadyExists) {
+		if errors.Is(err, bannersvc.ErrAlreadyExists) {
 			jsn.EncodeResponse(w, http.StatusConflict, api.ErrResponse(err.Error()), log)
 			return
 		} else if validErr := new(service.ValidationError); errors.As(err, validErr) {

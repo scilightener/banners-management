@@ -14,7 +14,7 @@ import (
 	"avito-test-task/internal/config"
 	"avito-test-task/internal/lib/jwt"
 	slogdiscard "avito-test-task/internal/lib/logger/slogimpl"
-	"avito-test-task/internal/service"
+	"avito-test-task/internal/service/banner"
 	"avito-test-task/internal/storage/pgs"
 	"avito-test-task/migrator"
 )
@@ -66,7 +66,7 @@ func Setup(t *testing.T) *Suit {
 		}
 		l := slogdiscard.NewDiscardLogger()
 		j := jwt.NewManager(string(cfg.JwtSettings.SecretKey), time.Duration(cfg.JwtSettings.Expire))
-		b := service.NewBannerService(s, s, s, s, l)
+		b := banner.NewService(s, s, s, s, l)
 		a := app.New(l, j, b)
 		go app.RunWithConfig(ctx, []string{}, getenv, a)
 

@@ -4,14 +4,15 @@ import (
 	"avito-test-task/internal/lib/api"
 	"avito-test-task/internal/lib/api/jsn"
 	"avito-test-task/internal/lib/logger/sl"
-	"avito-test-task/internal/models/dto/banner"
+	bannerdto "avito-test-task/internal/models/dto/banner"
 	"avito-test-task/internal/service"
+	bannersvc "avito-test-task/internal/service/banner"
 	"errors"
 	"log/slog"
 	"net/http"
 )
 
-func NewUpdateHandler(svc *service.Banner, log *slog.Logger) http.HandlerFunc {
+func NewUpdateHandler(svc *bannersvc.Service, log *slog.Logger) http.HandlerFunc {
 	const comp = "handlers.banner.update"
 
 	return func(w http.ResponseWriter, r *http.Request) {
@@ -27,7 +28,7 @@ func NewUpdateHandler(svc *service.Banner, log *slog.Logger) http.HandlerFunc {
 			jsn.EncodeResponse(w, http.StatusBadRequest, api.ErrResponse(err.Error()), log)
 			return
 		}
-		req := new(banner.UpdateDTO)
+		req := new(bannerdto.UpdateDTO)
 		err = jsn.DecodeRequest(r, req, log)
 		if err != nil {
 			jsn.EncodeResponse(w, http.StatusBadRequest, api.ErrResponse(err.Error()), log)
@@ -38,7 +39,7 @@ func NewUpdateHandler(svc *service.Banner, log *slog.Logger) http.HandlerFunc {
 		if validErr := new(service.ValidationError); errors.As(err, validErr) {
 			jsn.EncodeResponse(w, http.StatusBadRequest, api.ErrResponse(validErr.Error()), log)
 			return
-		} else if errors.Is(err, service.ErrBannerNotFound) {
+		} else if errors.Is(err, bannersvc.ErrNotFound) {
 			jsn.EncodeResponse(w, http.StatusNotFound, api.ErrResponse(err.Error()), log)
 			return
 		} else if err != nil {

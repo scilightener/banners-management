@@ -1,10 +1,12 @@
 package pgs
 
 import (
-	"avito-test-task/internal/models/entity"
 	"context"
 	"fmt"
+	"strconv"
 	"strings"
+
+	"avito-test-task/internal/models/entity"
 )
 
 // BannersByFeatureTag returns slice of banners associated with given feature and tag.
@@ -20,7 +22,7 @@ func (s *Storage) BannersByFeatureTag(
 ) ([]*entity.Banner, error) {
 	const comp = "storage.pgs.BannersByFeatureTag"
 
-	q, args := buildReadQuery(featureID, tagID, limit, offset)
+	q, args := buildReadManyQuery(featureID, tagID, limit, offset)
 
 	rows, err := s.dbPool.Query(ctx, q, args...)
 	if err != nil {
@@ -59,10 +61,10 @@ func (s *Storage) BannersByFeatureTag(
 	return banners, nil
 }
 
-// buildReadQuery builds a sql query based on the provided parameters.
+// buildReadManyQuery builds a sql query based on the provided parameters.
 // It returns the query string and the arguments to be passed to the query.
 // If a parameter is nil, it's ignored.
-func buildReadQuery(featureID, tagID *int64, limit, offset *int) (string, []any) {
+func buildReadManyQuery(featureID, tagID *int64, limit, offset *int) (string, []any) {
 	var sb strings.Builder
 
 	sb.WriteString(`WITH banners AS (`)
@@ -89,7 +91,7 @@ func getBannersQuery(featureID, tagID *int64, limit, offset *int) (string, []any
 
 	if featureID != nil {
 		sb.WriteString(" WHERE b.feature_id = $")
-		sb.WriteString(fmt.Sprintf("%d ", len(args)+1))
+		sb.WriteString(strconv.Itoa(len(args)+1) + " ")
 		args = append(args, *featureID)
 	}
 
@@ -100,19 +102,19 @@ func getBannersQuery(featureID, tagID *int64, limit, offset *int) (string, []any
 			sb.WriteString(" WHERE ")
 		}
 		sb.WriteString(" bt.tag_id = $")
-		sb.WriteString(fmt.Sprintf("%d ", len(args)+1))
+		sb.WriteString(strconv.Itoa(len(args)+1) + " ")
 		args = append(args, *tagID)
 	}
 
 	if limit != nil {
 		sb.WriteString(" LIMIT $")
-		sb.WriteString(fmt.Sprintf("%d ", len(args)+1))
+		sb.WriteString(strconv.Itoa(len(args)+1) + " ")
 		args = append(args, *limit)
 	}
 
 	if offset != nil {
 		sb.WriteString(" OFFSET $")
-		sb.WriteString(fmt.Sprintf("%d ", len(args)+1))
+		sb.WriteString(strconv.Itoa(len(args)+1) + " ")
 		args = append(args, *offset)
 	}
 

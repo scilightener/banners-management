@@ -1,8 +1,9 @@
 package repo
 
 import (
-	"avito-test-task/internal/models/entity"
 	"context"
+
+	"avito-test-task/internal/models/entity"
 )
 
 type BannerSaver interface {
@@ -10,6 +11,12 @@ type BannerSaver interface {
 }
 
 type BannerReader interface {
+	BannerByFeatureTag(
+		ctx context.Context,
+		featureID, tagID int64,
+		useLastRevision bool,
+	) (*entity.Banner, error)
+
 	BannersByFeatureTag(
 		ctx context.Context,
 		featureID, tagID *int64,

@@ -5,12 +5,13 @@ import (
 	"avito-test-task/internal/lib/api/jsn"
 	"avito-test-task/internal/lib/logger/sl"
 	"avito-test-task/internal/service"
+	"avito-test-task/internal/service/banner"
 	"errors"
 	"log/slog"
 	"net/http"
 )
 
-func NewDeleteHandler(svc *service.Banner, log *slog.Logger) http.HandlerFunc {
+func NewDeleteHandler(svc *banner.Service, log *slog.Logger) http.HandlerFunc {
 	const comp = "handlers.banner.delete"
 
 	return func(w http.ResponseWriter, r *http.Request) {
@@ -31,7 +32,7 @@ func NewDeleteHandler(svc *service.Banner, log *slog.Logger) http.HandlerFunc {
 		if validErr := new(service.ValidationError); errors.As(err, validErr) {
 			jsn.EncodeResponse(w, http.StatusBadRequest, api.ErrResponse(validErr.Error()), log)
 			return
-		} else if errors.Is(err, service.ErrBannerNotFound) {
+		} else if errors.Is(err, banner.ErrNotFound) {
 			jsn.EncodeResponse(w, http.StatusNotFound, api.ErrResponse(err.Error()), log)
 			return
 		} else if err != nil {

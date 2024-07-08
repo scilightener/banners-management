@@ -10,6 +10,15 @@ services:
       - POSTGRES_PASSWORD=hell12345678yeah
       - POSTGRES_DB=banners-task
 
+  banners-redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    command: >
+      sh -c "echo 'user scilightener on >12345678 ~* &* +@all' > /tmp/redis-users.acl && 
+            echo 'user default off' >> /tmp/redis-users.acl && 
+            redis-server --aclfile /tmp/redis-users.acl"
+
   banners-api:
     image: banners-api
     build:
@@ -19,3 +28,4 @@ services:
       - "22313:22313"
     depends_on:
       - banners-postgres
+      - banners-redis

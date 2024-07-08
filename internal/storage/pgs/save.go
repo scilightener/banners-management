@@ -9,8 +9,8 @@ import (
 	"github.com/jackc/pgx/v5/pgconn"
 
 	"avito-test-task/internal/models/entity"
-	"avito-test-task/internal/storage"
 	"avito-test-task/internal/storage/pgs/common/bannertag"
+	"avito-test-task/internal/storage/repo"
 )
 
 // SaveBanner saves a banner to the database.
@@ -56,7 +56,7 @@ func (s *Storage) SaveBanner(ctx context.Context, b *entity.Banner) (bannerID in
 	err = tx.Commit(ctx)
 	pgErr := new(pgconn.PgError)
 	if errors.As(err, &pgErr) && pgErr.Code == "P0001" { // P0001 when trigger is fired
-		return 0, fmt.Errorf("%s: %w", comp, storage.ErrBannerAlreadyExists)
+		return 0, fmt.Errorf("%s: %w", comp, repo.ErrBannerAlreadyExists)
 	} else if err != nil {
 		return 0, fmt.Errorf("%s: %w", comp, err)
 	}

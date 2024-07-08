@@ -4,12 +4,13 @@ import (
 	"avito-test-task/internal/lib/api"
 	"avito-test-task/internal/lib/api/jsn"
 	"avito-test-task/internal/service"
+	"avito-test-task/internal/service/banner"
 	"errors"
 	"log/slog"
 	"net/http"
 )
 
-func NewDeleteByFeatureTagHandler(svc *service.Banner, log *slog.Logger) http.HandlerFunc {
+func NewDeleteByFeatureTagHandler(svc *banner.Service, log *slog.Logger) http.HandlerFunc {
 	const comp = "handlers.banner.delete_by_feature_tag"
 
 	return func(w http.ResponseWriter, r *http.Request) {
@@ -33,7 +34,7 @@ func NewDeleteByFeatureTagHandler(svc *service.Banner, log *slog.Logger) http.Ha
 		if validErr := new(service.ValidationError); errors.As(err, validErr) {
 			jsn.EncodeResponse(w, http.StatusBadRequest, api.ErrResponse(validErr.Error()), log)
 			return
-		} else if errors.Is(err, service.ErrBannerNotFound) {
+		} else if errors.Is(err, banner.ErrNotFound) {
 			jsn.EncodeResponse(w, http.StatusNotFound, api.ErrResponse(err.Error()), log)
 			return
 		} else if err != nil {

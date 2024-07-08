@@ -1,17 +1,18 @@
 package routes
 
 import (
-	"avito-test-task/internal/app/routes/middleware"
-	adm "avito-test-task/internal/handlers/admin/banner"
-	"avito-test-task/internal/handlers/banner"
-	"avito-test-task/internal/lib/jwt"
-	"avito-test-task/internal/service"
 	"log/slog"
 	"net/http"
+
+	"avito-test-task/internal/app/routes/middleware"
+	adm "avito-test-task/internal/handlers/admin/banner"
+	bannerhndl "avito-test-task/internal/handlers/banner"
+	"avito-test-task/internal/lib/jwt"
+	bannersvc "avito-test-task/internal/service/banner"
 )
 
 // New creates a new router with all the middlewares.
-func New(logger *slog.Logger, manager *jwt.Manager, bannerSvc *service.Banner) http.Handler {
+func New(logger *slog.Logger, manager *jwt.Manager, bannerSvc *bannersvc.Service) http.Handler {
 	healthRouter := http.NewServeMux()
 	healthRouter.HandleFunc("GET /health", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
@@ -19,7 +20,7 @@ func New(logger *slog.Logger, manager *jwt.Manager, bannerSvc *service.Banner) h
 	})
 
 	router := http.NewServeMux()
-	router.Handle("GET /user_banner", banner.NewGetHandler(bannerSvc, logger))
+	router.Handle("GET /user_banner", bannerhndl.NewGetHandler(bannerSvc, logger))
 
 	mw := middleware.Chain(
 		middleware.NewRecovererMiddleware(logger),

@@ -1,14 +1,15 @@
 package banner
 
 import (
-	"avito-test-task/internal/lib/api"
-	"avito-test-task/internal/lib/api/jsn"
-	"avito-test-task/internal/models/entity"
-	"avito-test-task/internal/service"
 	"errors"
 	"log/slog"
 	"net/http"
 	"time"
+
+	"avito-test-task/internal/lib/api"
+	"avito-test-task/internal/lib/api/jsn"
+	"avito-test-task/internal/models/entity"
+	"avito-test-task/internal/service/banner"
 )
 
 const (
@@ -46,7 +47,7 @@ func (ri *GetResponseItem) fromEntity(b *entity.Banner) {
 	ri.UpdatedAt = b.UpdatedAt
 }
 
-func NewGetHandler(svc *service.Banner, log *slog.Logger) http.HandlerFunc {
+func NewGetHandler(svc *banner.Service, log *slog.Logger) http.HandlerFunc {
 	const comp = "handlers.banner.get"
 
 	return func(w http.ResponseWriter, r *http.Request) {
@@ -79,7 +80,7 @@ func NewGetHandler(svc *service.Banner, log *slog.Logger) http.HandlerFunc {
 		}
 
 		bs, err := svc.BannersByFeatureTag(r.Context(), fID, tID, li, off, &uLR)
-		if errors.Is(err, service.ErrBannerNotFound) {
+		if errors.Is(err, banner.ErrNotFound) {
 			jsn.EncodeResponse(w, http.StatusNotFound, api.ErrResponse(err.Error()), log)
 			return
 		} else if err != nil {

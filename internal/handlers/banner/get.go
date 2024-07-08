@@ -1,13 +1,14 @@
 package banner
 
 import (
-	"avito-test-task/internal/lib/api"
-	"avito-test-task/internal/lib/api/jsn"
-	"avito-test-task/internal/lib/logger/sl"
-	"avito-test-task/internal/service"
 	"errors"
 	"log/slog"
 	"net/http"
+
+	"avito-test-task/internal/lib/api"
+	"avito-test-task/internal/lib/api/jsn"
+	"avito-test-task/internal/lib/logger/sl"
+	"avito-test-task/internal/service/banner"
 )
 
 const (
@@ -23,7 +24,7 @@ type GetResponse struct {
 	api.Response
 }
 
-func NewGetHandler(svc *service.Banner, log *slog.Logger) http.HandlerFunc {
+func NewGetHandler(svc *banner.Service, log *slog.Logger) http.HandlerFunc {
 	const comp = "handlers.banner.get"
 
 	return func(w http.ResponseWriter, r *http.Request) {
@@ -54,11 +55,11 @@ func NewGetHandler(svc *service.Banner, log *slog.Logger) http.HandlerFunc {
 			return
 		}
 
-		b, err := svc.BannerByFeatureTag(r.Context(), fID, tID, 1, 0, uLR, true)
-		if errors.Is(err, service.ErrBannerNotActive) {
+		b, err := svc.BannerByFeatureTag(r.Context(), fID, tID, uLR, true)
+		if errors.Is(err, banner.ErrNotActive) {
 			jsn.EncodeResponse(w, http.StatusForbidden, api.ErrResponse(err.Error()), log)
 			return
-		} else if errors.Is(err, service.ErrBannerNotFound) {
+		} else if errors.Is(err, banner.ErrNotFound) {
 			jsn.EncodeResponse(w, http.StatusNotFound, api.ErrResponse(err.Error()), log)
 		} else if err != nil {
 			jsn.EncodeResponse(w, http.StatusBadRequest, api.ErrResponse(err.Error()), log)

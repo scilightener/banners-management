@@ -177,7 +177,7 @@ linters:
     - whitespace
 
 issues:
-  max-same-issues: 50
+  max-same-issues: 10
 
   exclude-rules:
     - source: "(noinspection|TODO)"

@@ -19,6 +19,7 @@ const (
 type Config struct {
 	Env         string      `json:"env"`
 	DB          DB          `json:"db"`
+	Cache       Cache       `json:"cache"`
 	JwtSettings JwtSettings `json:"jwt_settings"`
 	HTTPServer  HTTPServer  `json:"http_server"`
 }

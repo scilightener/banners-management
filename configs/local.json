@@ -2,10 +2,17 @@
   "env": "local",
   "db": {
     "host": "localhost",
-    "port": 22413,
+    "port": 5432,
     "user": "postgres",
     "pass": "12345678",
     "db_name": "banners-task"
+  },
+  "cache": {
+    "host": "localhost",
+    "port": 6379,
+    "user": "scilightener",
+    "pass": "12345678",
+    "db_name": 0
   },
   "jwt_settings": {
     "secret": "somemegasecuresecretkeysosecurethatnooneknowstrala1alalaIaLOLOL0",

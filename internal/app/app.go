@@ -1,12 +1,6 @@
 package app
 
 import (
-	"avito-test-task/internal/app/routes"
-	"avito-test-task/internal/config"
-	"avito-test-task/internal/lib/jwt"
-	"avito-test-task/internal/lib/logger/sl"
-	"avito-test-task/internal/service"
-	"avito-test-task/internal/storage/pgs"
 	"context"
 	"errors"
 	"log/slog"
@@ -15,17 +9,25 @@ import (
 	"os/signal"
 	"syscall"
 	"time"
+
+	"avito-test-task/internal/app/routes"
+	"avito-test-task/internal/cache/redis"
+	"avito-test-task/internal/config"
+	"avito-test-task/internal/lib/jwt"
+	"avito-test-task/internal/lib/logger/sl"
+	"avito-test-task/internal/service/banner"
+	"avito-test-task/internal/storage/pgs"
 )
 
 // App is the main application structure. It holds all the dependencies and the server.
 type App struct {
 	logger        *slog.Logger
 	jwtManager    *jwt.Manager
-	bannerService *service.Banner
+	bannerService *banner.Service
 }
 
 // New creates a new instance of the App.
-func New(logger *slog.Logger, jwtManager *jwt.Manager, bannerSvc *service.Banner) *App {
+func New(logger *slog.Logger, jwtManager *jwt.Manager, bannerSvc *banner.Service) *App {
 	return &App{
 		logger:        logger,
 		jwtManager:    jwtManager,
@@ -67,8 +69,10 @@ func Run() {
 	cfg := config.MustLoad(os.Args[1:], os.LookupEnv)
 	logger := initLogger(cfg.Env)
 	storage := initStorage(context.Background(), cfg.DB.ConnectionString(), logger)
+	redisClient := initRedisCache(context.Background(), cfg.Cache.ConnectionString(), logger)
 	jwtManager := jwt.NewManager(string(cfg.JwtSettings.SecretKey), time.Duration(cfg.JwtSettings.Expire))
-	bannerService := service.NewBannerService(storage, storage, storage, storage, logger)
+	cacheReader := banner.NewCacheReader(storage, redisClient, logger)
+	bannerService := banner.NewService(cacheReader, storage, storage, storage, logger)
 	app := New(logger, jwtManager, bannerService)
 	run(context.Background(), cfg, app)
 	waitForReturn(
@@ -154,4 +158,15 @@ func initStorage(ctx context.Context, connString string, logger *slog.Logger) *p
 
 	logger.Info("storage initialized", slog.String("storage", "postgres"))
 	return storage
+}
+
+func initRedisCache(ctx context.Context, connString string, logger *slog.Logger) *redis.Cache {
+	redisClient, err := redis.NewCache(connString)
+	if err != nil {
+		logger.Error("failed to initialize redis cache", sl.Err(err))
+		os.Exit(1)
+	}
+
+	logger.Info("redis cache initialized", slog.String("cache", "redis"))
+	return redisClient
 }

@@ -11,7 +11,7 @@ import (
 )
 
 func NewDeleteByFeatureTagHandler(svc *banner.Service, log *slog.Logger) http.HandlerFunc {
-	const comp = "handlers.banner.delete_by_feature_tag"
+	const comp = "handlers.admin.banner.delete_by_feature_tag"
 
 	return func(w http.ResponseWriter, r *http.Request) {
 		log := log.With(

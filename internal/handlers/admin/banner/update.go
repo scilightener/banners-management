@@ -13,7 +13,7 @@ import (
 )
 
 func NewUpdateHandler(svc *bannersvc.Service, log *slog.Logger) http.HandlerFunc {
-	const comp = "handlers.banner.update"
+	const comp = "handlers.admin.banner.update"
 
 	return func(w http.ResponseWriter, r *http.Request) {
 		log := log.With(

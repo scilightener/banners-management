@@ -48,7 +48,7 @@ func (ri *GetResponseItem) fromEntity(b *entity.Banner) {
 }
 
 func NewGetHandler(svc *banner.Service, log *slog.Logger) http.HandlerFunc {
-	const comp = "handlers.banner.get"
+	const comp = "handlers.admin.banner.get"
 
 	return func(w http.ResponseWriter, r *http.Request) {
 		log := log.With(

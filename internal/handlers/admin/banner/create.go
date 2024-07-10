@@ -17,7 +17,7 @@ type CreateResponse struct {
 }
 
 func NewCreateHandler(svc *bannersvc.Service, log *slog.Logger) http.HandlerFunc {
-	const comp = "handlers.banner.create"
+	const comp = "handlers.admin.banner.create"
 
 	return func(w http.ResponseWriter, r *http.Request) {
 		log := log.With(

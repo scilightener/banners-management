@@ -42,8 +42,8 @@ func (s *Storage) UpdateBanner(ctx context.Context, b *entity.UpdatableBanner) (
 
 	q, args := buildUpdateBannerQuery(b)
 	batch.Queue(q, args...)
-	batch.Queue("DELETE FROM banner_tag WHERE banner_id = $1;", b.ID)
 	if b.TagIDs != nil {
+		batch.Queue("DELETE FROM banner_tag WHERE banner_id = $1;", b.ID)
 		batch.Queue(bannertag.InsertTagsQuery(b.ID, *b.TagIDs))
 	}
 

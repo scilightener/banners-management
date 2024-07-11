@@ -34,16 +34,7 @@ func TestBannerCreate_Successful(t *testing.T) {
 
 	e.POST("/banner").
 		WithMaxRetries(5).
-		WithJSON(banner.CreateDTO{
-			TagIDs:    getNextTagIDs(2),
-			FeatureID: getNextFeatureID(),
-			Content: banner.CreateContent{
-				Title: gofakeit.Word(),
-				Text:  gofakeit.Word(),
-				URL:   gofakeit.URL(),
-			},
-			IsActive: true,
-		}).
+		WithJSON(newCreateBannerDTO()).
 		WithHeader("Authorization", "Bearer "+tokenAdm).
 		Expect().
 		Status(http.StatusCreated).
@@ -55,7 +46,7 @@ func TestBannerCreate_Successful(t *testing.T) {
 func TestBannerCreate_BannerAlreadyExists(t *testing.T) {
 	e, _, tokenAdm := initTest(t)
 
-	b := getCreateBannerDTO()
+	b := newCreateBannerDTO()
 	e.POST("/banner").
 		WithMaxRetries(5).
 		WithJSON(b).

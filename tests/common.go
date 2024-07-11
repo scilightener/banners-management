@@ -38,11 +38,11 @@ func initTest(t *testing.T) (*httpexpect.Expect, string, string) {
 
 		expect = httpexpect.Default(t, u.String())
 
-		require := require.New(t)
+		rqr := require.New(t)
 		user, err := s.JwtManager.GenerateToken("user")
-		require.NoError(err)
+		rqr.NoError(err)
 		admin, err := s.JwtManager.GenerateToken("admin")
-		require.NoError(err)
+		rqr.NoError(err)
 		tokenUsr, tokenAdm = user, admin
 	})
 
@@ -73,7 +73,7 @@ func getNextFeatureID() int64 {
 	return lastFeatureID
 }
 
-func getCreateBannerDTO() banner.CreateDTO {
+func newCreateBannerDTO() banner.CreateDTO {
 	return banner.CreateDTO{
 		TagIDs:    getNextTagIDs(2),
 		FeatureID: getNextFeatureID(),
@@ -86,7 +86,20 @@ func getCreateBannerDTO() banner.CreateDTO {
 	}
 }
 
-func getUpdateBannerDTO() *banner.UpdateDTO {
+func createBannerDTO(featureID int64, tagIDs []int64, isActive bool) banner.CreateDTO {
+	return banner.CreateDTO{
+		TagIDs:    tagIDs,
+		FeatureID: featureID,
+		Content: banner.CreateContent{
+			Title: gofakeit.Word(),
+			Text:  gofakeit.Word(),
+			URL:   gofakeit.URL(),
+		},
+		IsActive: isActive,
+	}
+}
+
+func newUpdateBannerDTO() banner.UpdateDTO {
 	tagIDs := getNextTagIDs(2)
 	title := gofakeit.Word()
 	text := gofakeit.Word()
@@ -94,7 +107,7 @@ func getUpdateBannerDTO() *banner.UpdateDTO {
 	featureID := getNextFeatureID()
 	isActive := true
 
-	return &banner.UpdateDTO{
+	return banner.UpdateDTO{
 		TagIDs:    &tagIDs,
 		FeatureID: &featureID,
 		Content: &banner.UpdateContent{
@@ -103,5 +116,22 @@ func getUpdateBannerDTO() *banner.UpdateDTO {
 			URL:   &u,
 		},
 		IsActive: &isActive,
+	}
+}
+
+func updateBannerDTO(featureID *int64, tagIDs *[]int64, isActive *bool) banner.UpdateDTO {
+	title := gofakeit.Word()
+	text := gofakeit.Word()
+	u := gofakeit.URL()
+
+	return banner.UpdateDTO{
+		TagIDs:    tagIDs,
+		FeatureID: featureID,
+		Content: &banner.UpdateContent{
+			Title: &title,
+			Text:  &text,
+			URL:   &u,
+		},
+		IsActive: isActive,
 	}
 }

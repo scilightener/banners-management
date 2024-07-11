@@ -10,7 +10,7 @@ import (
 func TestBannerUserGet_NotAuthed_Unauthorized(t *testing.T) {
 	e, _, tokenAdm := initTest(t)
 
-	b := getCreateBannerDTO()
+	b := newCreateBannerDTO()
 	e.POST("/banner").
 		WithMaxRetries(5).
 		WithJSON(b).
@@ -27,7 +27,7 @@ func TestBannerUserGet_NotAuthed_Unauthorized(t *testing.T) {
 func TestBannerUserGet_BannerNotActive(t *testing.T) {
 	e, tokenUsr, tokenAdm := initTest(t)
 
-	b := getCreateBannerDTO()
+	b := newCreateBannerDTO()
 	b.IsActive = false
 	e.POST("/banner").
 		WithMaxRetries(5).
@@ -46,7 +46,7 @@ func TestBannerUserGet_BannerNotActive(t *testing.T) {
 func TestBannerUserGet_Successful(t *testing.T) {
 	e, tokenUsr, tokenAdm := initTest(t)
 
-	b := getCreateBannerDTO()
+	b := newCreateBannerDTO()
 	e.POST("/banner").
 		WithMaxRetries(5).
 		WithJSON(b).
@@ -60,13 +60,13 @@ func TestBannerUserGet_Successful(t *testing.T) {
 		Expect().
 		Status(http.StatusOK).
 		JSON().Object().Raw()
-	assert := assert.New(t)
+	asrt := assert.New(t)
 	_, ok := resp["title"].(string)
-	assert.True(ok)
+	asrt.True(ok)
 	_, ok = resp["text"].(string)
-	assert.True(ok)
+	asrt.True(ok)
 	_, ok = resp["url"].(string)
-	assert.True(ok)
+	asrt.True(ok)
 }
 
 func TestBannerUserGet_NotFound(t *testing.T) {
@@ -83,7 +83,7 @@ func TestBannerUserGet_NotFound(t *testing.T) {
 func TestBannerUserGet_InvalidData_FailCases(t *testing.T) {
 	e, tokenUsr, tokenAdm := initTest(t)
 
-	b := getCreateBannerDTO()
+	b := newCreateBannerDTO()
 	e.POST("/banner").
 		WithMaxRetries(5).
 		WithJSON(b).

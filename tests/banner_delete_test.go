@@ -10,7 +10,7 @@ func TestBannerDelete_AsUser_Fail(t *testing.T) {
 
 	v := e.POST("/banner").
 		WithMaxRetries(5).
-		WithJSON(getCreateBannerDTO()).
+		WithJSON(newCreateBannerDTO()).
 		WithHeader("Authorization", "Bearer "+tokenAdm).
 		Expect().
 		JSON().Object().Value("banner_id")
@@ -26,7 +26,7 @@ func TestBannerDelete_AsUser_Fail(t *testing.T) {
 func TestBannerDelete_Successful(t *testing.T) {
 	e, _, tokenAdm := initTest(t)
 
-	b := getCreateBannerDTO()
+	b := newCreateBannerDTO()
 
 	v := e.POST("/banner").
 		WithMaxRetries(5).

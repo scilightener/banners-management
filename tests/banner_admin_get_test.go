@@ -4,16 +4,13 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/brianvoe/gofakeit/v6"
 	"github.com/stretchr/testify/require"
-
-	"avito-test-task/internal/models/dto/banner"
 )
 
 func TestBannerAdminGet_AsUser_Forbidden(t *testing.T) {
 	e, tokenUser, tokenAdm := initTest(t)
 
-	b := getCreateBannerDTO()
+	b := newCreateBannerDTO()
 	v := e.POST("/banner").
 		WithMaxRetries(5).
 		WithJSON(b).
@@ -34,7 +31,7 @@ func TestBannerAdminGet_AsUser_Forbidden(t *testing.T) {
 func TestBannerAdminGet_BannerNotActive_Successful(t *testing.T) {
 	e, _, tokenAdm := initTest(t)
 
-	b := getCreateBannerDTO()
+	b := newCreateBannerDTO()
 	b.IsActive = false
 	v := e.POST("/banner").
 		WithMaxRetries(5).
@@ -56,7 +53,7 @@ func TestBannerAdminGet_BannerNotActive_Successful(t *testing.T) {
 func TestBannerAdminGet_Successful(t *testing.T) {
 	e, _, tokenAdm := initTest(t)
 
-	b := getCreateBannerDTO()
+	b := newCreateBannerDTO()
 	v := e.POST("/banner").
 		WithMaxRetries(5).
 		WithJSON(b).
@@ -77,17 +74,8 @@ func TestBannerAdminGet_Successful(t *testing.T) {
 func TestBannerAdminGet_MultipleBanners(t *testing.T) {
 	e, _, tokenAdm := initTest(t)
 
-	b1 := getCreateBannerDTO()
-	b2 := banner.CreateDTO{
-		TagIDs:    getNextTagIDs(2),
-		FeatureID: b1.FeatureID,
-		Content: banner.CreateContent{
-			Title: gofakeit.Word(),
-			Text:  gofakeit.Word(),
-			URL:   gofakeit.URL(),
-		},
-		IsActive: true,
-	}
+	b1 := newCreateBannerDTO()
+	b2 := createBannerDTO(b1.FeatureID, getNextTagIDs(2), true)
 
 	v1 := e.POST("/banner").
 		WithMaxRetries(5).

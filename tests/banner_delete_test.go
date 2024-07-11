@@ -14,7 +14,7 @@ func TestBannerDelete_AsUser_Fail(t *testing.T) {
 		WithHeader("Authorization", "Bearer "+tokenAdm).
 		Expect().
 		JSON().Object().Value("banner_id")
-	id := int64(v.Raw().(float64))
+	id := rawToInt64(v.Raw())
 
 	e.DELETE("/banner/{id}", id).
 		WithMaxRetries(5).
@@ -25,7 +25,6 @@ func TestBannerDelete_AsUser_Fail(t *testing.T) {
 
 func TestBannerDelete_Successful(t *testing.T) {
 	e, _, tokenAdm := initTest(t)
-
 	b := newCreateBannerDTO()
 
 	v := e.POST("/banner").
@@ -34,7 +33,7 @@ func TestBannerDelete_Successful(t *testing.T) {
 		WithHeader("Authorization", "Bearer "+tokenAdm).
 		Expect().
 		JSON().Object().Value("banner_id")
-	id := int64(v.Raw().(float64))
+	id := rawToInt64(v.Raw())
 
 	e.DELETE("/banner/{id}", id).
 		WithMaxRetries(5).

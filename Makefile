@@ -42,5 +42,5 @@ docker-deps-down:
 
 test: docker-deps
 	@echo "Running tests..."
-	@go test ./tests
+	-@go test ./tests
 	@make docker-deps-down

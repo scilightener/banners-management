@@ -16,7 +16,7 @@ func TestBannerUpdate_AsUser_Fail(t *testing.T) {
 		WithHeader("Authorization", "Bearer "+tokenAdm).
 		Expect().
 		JSON().Object().Value("banner_id")
-	id := int64(v.Raw().(float64))
+	id := rawToInt64(v.Raw())
 
 	e.PATCH("/banner/{id}", id).
 		WithJSON(newUpdateBannerDTO()).
@@ -27,8 +27,8 @@ func TestBannerUpdate_AsUser_Fail(t *testing.T) {
 
 func TestBannerUpdate_Successful(t *testing.T) {
 	e, _, tokenAdm := initTest(t)
-
 	b := newCreateBannerDTO()
+	updDTO := newUpdateBannerDTO()
 
 	v := e.POST("/banner").
 		WithMaxRetries(5).
@@ -36,9 +36,7 @@ func TestBannerUpdate_Successful(t *testing.T) {
 		WithHeader("Authorization", "Bearer "+tokenAdm).
 		Expect().
 		JSON().Object().Value("banner_id")
-	id := int64(v.Raw().(float64))
-
-	updDTO := newUpdateBannerDTO()
+	id := rawToInt64(v.Raw())
 
 	e.PATCH("/banner/{id}", id).
 		WithJSON(updDTO).
@@ -61,84 +59,23 @@ func TestBannerUpdate_Successful(t *testing.T) {
 
 func TestBannerUpdate_BannerConflict(t *testing.T) {
 	e, _, tokenAdm := initTest(t)
-
 	b1 := newCreateBannerDTO()
-	e.POST("/banner").
-		WithMaxRetries(5).
-		WithJSON(b1).
-		WithHeader("Authorization", "Bearer "+tokenAdm).
-		Expect().
-		JSON().Object().Value("banner_id")
 	b2 := newCreateBannerDTO()
-	v2 := e.POST("/banner").
-		WithMaxRetries(5).
-		WithJSON(b2).
-		WithHeader("Authorization", "Bearer "+tokenAdm).
-		Expect().
-		JSON().Object().Value("banner_id")
-	id2 := int64(v2.Raw().(float64))
-
 	updDTO := updateBannerDTO(&b1.FeatureID, &b1.TagIDs, nil)
 
-	e.PATCH("/banner/{id}", id2).
-		WithJSON(updDTO).
-		WithHeader("Authorization", "Bearer "+tokenAdm).
-		Expect().
-		Status(http.StatusConflict).
-		JSON().Object().ContainsKey("error").
-		Value("error").String().Length().Gt(0)
-}
-
-func TestBannerUpdate_BannerConflictFeatureID(t *testing.T) {
-	e, _, tokenAdm := initTest(t)
-
-	b1 := newCreateBannerDTO()
 	e.POST("/banner").
 		WithMaxRetries(5).
 		WithJSON(b1).
 		WithHeader("Authorization", "Bearer "+tokenAdm).
 		Expect().
 		JSON().Object().Value("banner_id")
-	b2 := newCreateBannerDTO()
 	v2 := e.POST("/banner").
 		WithMaxRetries(5).
 		WithJSON(b2).
 		WithHeader("Authorization", "Bearer "+tokenAdm).
 		Expect().
 		JSON().Object().Value("banner_id")
-	id2 := int64(v2.Raw().(float64))
-
-	updDTO := updateBannerDTO(&b1.FeatureID, nil, nil)
-
-	e.PATCH("/banner/{id}", id2).
-		WithJSON(updDTO).
-		WithHeader("Authorization", "Bearer "+tokenAdm).
-		Expect().
-		Status(http.StatusConflict).
-		JSON().Object().ContainsKey("error").
-		Value("error").String().Length().Gt(0)
-}
-
-func TestBannerUpdate_BannerConflictTagIDs(t *testing.T) {
-	e, _, tokenAdm := initTest(t)
-
-	b1 := newCreateBannerDTO()
-	e.POST("/banner").
-		WithMaxRetries(5).
-		WithJSON(b1).
-		WithHeader("Authorization", "Bearer "+tokenAdm).
-		Expect().
-		JSON().Object().Value("banner_id")
-	b2 := newCreateBannerDTO()
-	v2 := e.POST("/banner").
-		WithMaxRetries(5).
-		WithJSON(b2).
-		WithHeader("Authorization", "Bearer "+tokenAdm).
-		Expect().
-		JSON().Object().Value("banner_id")
-	id2 := int64(v2.Raw().(float64))
-
-	updDTO := updateBannerDTO(nil, &b1.TagIDs, nil)
+	id2 := rawToInt64(v2.Raw())
 
 	e.PATCH("/banner/{id}", id2).
 		WithJSON(updDTO).

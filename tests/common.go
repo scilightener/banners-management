@@ -49,6 +49,10 @@ func initTest(t *testing.T) (*httpexpect.Expect, string, string) {
 	return expect, tokenUsr, tokenAdm
 }
 
+func rawToInt64(f interface{}) int64 {
+	return int64(f.(float64))
+}
+
 // getNextTagIDs returns the next tag IDs.
 // It is unique for each call. It is thread-safe.
 // The uniqueness is needed to avoid conflicts with the database trigger.

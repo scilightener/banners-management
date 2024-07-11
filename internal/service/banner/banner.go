@@ -165,6 +165,9 @@ func (s *Service) UpdateBanner(ctx context.Context, id int64, dto banner.UpdateD
 	if errors.Is(err, repo.ErrBannerNotFound) {
 		s.logger.Error("banner not found", sl.Err(err))
 		return ErrNotFound
+	} else if errors.Is(err, repo.ErrBannerAlreadyExists) {
+		s.logger.Error("unable to update banner", sl.Err(err))
+		return ErrAlreadyExists
 	} else if err != nil {
 		s.logger.Error("failed to update banner", sl.Err(err))
 		return ErrUnknown

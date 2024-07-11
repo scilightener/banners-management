@@ -1,6 +1,7 @@
 package tests
 
 import (
+	"avito-test-task/internal/models/dto/banner"
 	"net/http"
 	"testing"
 
@@ -57,4 +58,38 @@ func TestBannerUpdate_Successful(t *testing.T) {
 	assert.Equal(*updDTO.Content.Title, upd["title"])
 	assert.Equal(*updDTO.Content.Text, upd["text"])
 	assert.Equal(*updDTO.Content.URL, upd["url"])
+}
+
+// TODO: add conflict by feature & tags separately !!! TRIGGER DOESN'T WORK ON UPDATE !!!
+func TestBannerUpdate_NewBannerConflict(t *testing.T) {
+	e, _, tokenAdm := initTest(t)
+
+	b1 := getCreateBannerDTO()
+	e.POST("/banner").
+		WithMaxRetries(5).
+		WithJSON(b1).
+		WithHeader("Authorization", "Bearer "+tokenAdm).
+		Expect().
+		JSON().Object().Value("banner_id")
+	b2 := getCreateBannerDTO()
+	v2 := e.POST("/banner").
+		WithMaxRetries(5).
+		WithJSON(b2).
+		WithHeader("Authorization", "Bearer "+tokenAdm).
+		Expect().
+		JSON().Object().Value("banner_id")
+	id2 := int64(v2.Raw().(float64))
+
+	updDTO := banner.UpdateDTO{
+		TagIDs:    &b1.TagIDs,
+		FeatureID: &b1.FeatureID,
+	}
+
+	e.PATCH("/banner/{id}", id2).
+		WithJSON(updDTO).
+		WithHeader("Authorization", "Bearer "+tokenAdm).
+		Expect().
+		Status(http.StatusConflict).
+		JSON().Object().ContainsKey("error").
+		Value("error").String().Length().Gt(0)
 }

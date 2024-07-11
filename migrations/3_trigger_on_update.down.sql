@@ -1,0 +1,1 @@
+DROP TRIGGER IF EXISTS unique_feature_tag_trigger ON banner;

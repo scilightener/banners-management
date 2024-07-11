@@ -51,6 +51,30 @@ func TestBannerCreate_Successful(t *testing.T) {
 		Value("banner_id").Number()
 }
 
+// TODO: add conflict by feature & tags separately
+func TestBannerCreate_BannerAlreadyExists(t *testing.T) {
+	e, _, tokenAdm := initTest(t)
+
+	b := getCreateBannerDTO()
+	e.POST("/banner").
+		WithMaxRetries(5).
+		WithJSON(b).
+		WithHeader("Authorization", "Bearer "+tokenAdm).
+		Expect().
+		Status(http.StatusCreated).
+		JSON().Object().ContainsKey("banner_id").
+		Value("banner_id").Number()
+
+	e.POST("/banner").
+		WithMaxRetries(5).
+		WithJSON(b).
+		WithHeader("Authorization", "Bearer "+tokenAdm).
+		Expect().
+		Status(http.StatusConflict).
+		JSON().Object().ContainsKey("error").
+		Value("error").String().Length().Gt(0)
+}
+
 func TestBannerCreate_InvalidData_FailCases(t *testing.T) {
 	e, _, tokenAdm := initTest(t)
 

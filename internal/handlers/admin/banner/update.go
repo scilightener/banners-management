@@ -42,6 +42,9 @@ func NewUpdateHandler(svc *bannersvc.Service, log *slog.Logger) http.HandlerFunc
 		} else if errors.Is(err, bannersvc.ErrNotFound) {
 			jsn.EncodeResponse(w, http.StatusNotFound, api.ErrResponse(err.Error()), log)
 			return
+		} else if errors.Is(err, bannersvc.ErrAlreadyExists) {
+			jsn.EncodeResponse(w, http.StatusConflict, api.ErrResponse(err.Error()), log)
+			return
 		} else if err != nil {
 			jsn.EncodeResponse(w, http.StatusInternalServerError, api.ErrResponse(err.Error()), log)
 			return

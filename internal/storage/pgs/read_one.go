@@ -49,10 +49,11 @@ func (s *Storage) BannerByFeatureTag(
 		return nil, fmt.Errorf("%s: %w", comp, err)
 	}
 	i := 1
+	id := new(int64)
 	for rows.Next() {
 		tagIDs = append(tagIDs, 0)
 		err = rows.Scan(
-			nil,
+			id,
 			nil,
 			nil,
 			nil,
@@ -64,6 +65,9 @@ func (s *Storage) BannerByFeatureTag(
 		)
 		if err != nil {
 			return nil, fmt.Errorf("%s: %w", comp, err)
+		}
+		if *id != banner.ID {
+			return nil, fmt.Errorf("%s: %w", comp, repo.ErrBannerNotUnique)
 		}
 		i++
 	}

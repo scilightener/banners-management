@@ -9,4 +9,5 @@ import (
 var (
 	ErrBannerNotFound      = errors.New(msg.BannerNotFound)
 	ErrBannerAlreadyExists = errors.New(msg.BannerAlreadyExists)
+	ErrBannerNotUnique     = errors.New(msg.BannerNotUnique)
 )

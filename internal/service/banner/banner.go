@@ -25,6 +25,10 @@ var (
 	ErrNotUnique     = errors.New(msg.BannerNotUnique)
 )
 
+var (
+	validatr = validator.New()
+)
+
 type Service struct {
 	reader  repo.BannerReader
 	saver   repo.BannerSaver
@@ -52,7 +56,7 @@ func NewService(
 // SaveBanner saves a new banner to the storage.
 // It validates the input data and returns an error if the data is invalid.
 func (s *Service) SaveBanner(ctx context.Context, dto banner.CreateDTO) (int64, error) {
-	if err := validator.New().Struct(dto); err != nil {
+	if err := validatr.Struct(dto); err != nil {
 		var validErrs validator.ValidationErrors
 		errors.As(err, &validErrs)
 		s.logger.Error("request validation failed", sl.Err(err))
@@ -86,6 +90,10 @@ func (s *Service) BannerByFeatureTag(
 			s.logger.Info("banner not found",
 				slog.Int64("featureID", featureID), slog.Int64("tagID", tagID))
 			return nil, ErrNotFound
+		} else if errors.Is(err, repo.ErrBannerNotUnique) {
+			s.logger.Info("banner not unique",
+				slog.Int64("featureID", featureID), slog.Int64("tagID", tagID))
+			return nil, ErrNotUnique
 		}
 		s.logger.Error("failed to get banner by feature and tag",
 			sl.Err(err), slog.Int64("featureID", featureID), slog.Int64("tagID", tagID))
@@ -113,7 +121,7 @@ func (s *Service) BannersByFeatureTag(
 	banners, err := s.reader.BannersByFeatureTag(ctx, featureID, tagID, limit, offset, useLastRevision)
 	if err != nil {
 		s.logger.Error("failed to get banner by feature and tag", sl.Err(err))
-		return nil, ErrNotUnique
+		return nil, ErrUnknown
 	}
 
 	return banners, nil
@@ -122,7 +130,7 @@ func (s *Service) BannersByFeatureTag(
 // DeleteBanner deletes a banner by the ID.
 // If the banner was not found, it returns an error.
 func (s *Service) DeleteBanner(ctx context.Context, id int64) error {
-	if err := validator.New().Var(id, "required"); err != nil {
+	if err := validatr.Var(id, "required"); err != nil {
 		var validErrs validator.ValidationErrors
 		errors.As(err, &validErrs)
 		s.logger.Error("request validation failed", sl.Err(err))
@@ -144,7 +152,7 @@ func (s *Service) DeleteBanner(ctx context.Context, id int64) error {
 // UpdateBanner updates a banner by the ID.
 // If the banner was not found, it returns an error.
 func (s *Service) UpdateBanner(ctx context.Context, id int64, dto banner.UpdateDTO) error {
-	if err := validator.New().Struct(dto); err != nil {
+	if err := validatr.Struct(dto); err != nil {
 		var validErrs validator.ValidationErrors
 		errors.As(err, &validErrs)
 		s.logger.Error("request validation failed", sl.Err(err))

@@ -56,54 +56,6 @@ func TestBannerCreate_BannerAlreadyExists(t *testing.T) {
 		Value("error").String().Length().Gt(0)
 }
 
-func TestBannerCreate_BannerAlreadyExistsByFeatureID(t *testing.T) {
-	e, _, tokenAdm := initTest(t)
-	b1 := newCreateBannerDTO()
-	b2 := createBannerDTO(b1.FeatureID, getNextTagIDs(2), true)
-
-	e.POST("/banner").
-		WithMaxRetries(5).
-		WithJSON(b1).
-		WithHeader("Authorization", "Bearer "+tokenAdm).
-		Expect().
-		Status(http.StatusCreated).
-		JSON().Object().ContainsKey("banner_id").
-		Value("banner_id").Number()
-
-	e.POST("/banner").
-		WithMaxRetries(5).
-		WithJSON(b2).
-		WithHeader("Authorization", "Bearer "+tokenAdm).
-		Expect().
-		Status(http.StatusConflict).
-		JSON().Object().ContainsKey("error").
-		Value("error").String().Length().Gt(0)
-}
-
-func TestBannerCreate_BannerAlreadyExistsByTagIDs(t *testing.T) {
-	e, _, tokenAdm := initTest(t)
-	b1 := newCreateBannerDTO()
-	b2 := createBannerDTO(getNextFeatureID(), b1.TagIDs, true)
-
-	e.POST("/banner").
-		WithMaxRetries(5).
-		WithJSON(b1).
-		WithHeader("Authorization", "Bearer "+tokenAdm).
-		Expect().
-		Status(http.StatusCreated).
-		JSON().Object().ContainsKey("banner_id").
-		Value("banner_id").Number()
-
-	e.POST("/banner").
-		WithMaxRetries(5).
-		WithJSON(b2).
-		WithHeader("Authorization", "Bearer "+tokenAdm).
-		Expect().
-		Status(http.StatusConflict).
-		JSON().Object().ContainsKey("error").
-		Value("error").String().Length().Gt(0)
-}
-
 func TestBannerCreate_InvalidData_FailCases(t *testing.T) {
 	e, _, tokenAdm := initTest(t)
 

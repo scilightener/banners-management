@@ -40,15 +40,18 @@ func TestBannerAdminGet_BannerNotActive_Successful(t *testing.T) {
 		JSON().Object().Value("banner_id").Raw()
 	id := rawToInt64(v)
 
-	e.GET("/banner").
+	resp := e.GET("/banner").
 		WithMaxRetries(5).
 		WithQuery("feature_id", b.FeatureID).
 		WithQuery("tag_id", b.TagIDs[0]).
 		WithHeader("Authorization", "Bearer "+tokenAdm).
 		Expect().
 		Status(http.StatusOK).
-		JSON().Object().ContainsKey("banner_id").
-		Value("banner_id").IsEqual(id)
+		JSON().Array()
+
+	require.Equal(t, int64(1), int64(resp.Length().Raw()))
+	r1 := rawToInt64(resp.Value(0).Object().Raw()["banner_id"])
+	require.Equal(t, r1, id)
 }
 
 func TestBannerAdminGet_Successful(t *testing.T) {
@@ -63,15 +66,18 @@ func TestBannerAdminGet_Successful(t *testing.T) {
 		JSON().Object().Value("banner_id").Raw()
 	id := rawToInt64(v)
 
-	e.GET("/banner").
+	resp := e.GET("/banner").
 		WithMaxRetries(5).
 		WithQuery("feature_id", b.FeatureID).
 		WithQuery("tag_id", b.TagIDs[0]).
 		WithHeader("Authorization", "Bearer "+tokenAdm).
 		Expect().
 		Status(http.StatusOK).
-		JSON().Object().ContainsKey("banner_id").
-		Value("banner_id").IsEqual(id)
+		JSON().Array()
+
+	require.Equal(t, int64(1), int64(resp.Length().Raw()))
+	r1 := rawToInt64(resp.Value(0).Object().Raw()["banner_id"])
+	require.Equal(t, r1, id)
 }
 
 func TestBannerAdminGet_MultipleBanners(t *testing.T) {

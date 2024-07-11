@@ -60,12 +60,13 @@ func TestBannerUserGet_Successful(t *testing.T) {
 		Expect().
 		Status(http.StatusOK).
 		JSON().Object().Raw()
+	assert := assert.New(t)
 	_, ok := resp["title"].(string)
-	assert.True(t, ok)
+	assert.True(ok)
 	_, ok = resp["text"].(string)
-	assert.True(t, ok)
+	assert.True(ok)
 	_, ok = resp["url"].(string)
-	assert.True(t, ok)
+	assert.True(ok)
 }
 
 func TestBannerUserGet_NotFound(t *testing.T) {

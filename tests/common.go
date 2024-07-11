@@ -38,10 +38,11 @@ func initTest(t *testing.T) (*httpexpect.Expect, string, string) {
 
 		expect = httpexpect.Default(t, u.String())
 
+		require := require.New(t)
 		user, err := s.JwtManager.GenerateToken("user")
-		require.NoError(t, err)
+		require.NoError(err)
 		admin, err := s.JwtManager.GenerateToken("admin")
-		require.NoError(t, err)
+		require.NoError(err)
 		tokenUsr, tokenAdm = user, admin
 	})
 

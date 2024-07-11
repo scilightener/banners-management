@@ -53,7 +53,8 @@ func TestBannerUpdate_Successful(t *testing.T) {
 		Status(http.StatusOK).
 		JSON().Object().Raw()
 
-	assert.Equal(t, *updDTO.Content.Title, upd["title"])
-	assert.Equal(t, *updDTO.Content.Text, upd["text"])
-	assert.Equal(t, *updDTO.Content.URL, upd["url"])
+	assert := assert.New(t)
+	assert.Equal(*updDTO.Content.Title, upd["title"])
+	assert.Equal(*updDTO.Content.Text, upd["text"])
+	assert.Equal(*updDTO.Content.URL, upd["url"])
 }

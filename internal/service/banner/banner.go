@@ -49,7 +49,7 @@ func NewService(
 		saver,
 		deleter,
 		updater,
-		log.With(slog.String("comp", "service.banner.NewService")),
+		log.With(slog.String("comp", "service.banner")),
 	}
 }
 

@@ -7,7 +7,7 @@ import (
 
 	"avito-test-task/internal/lib/api"
 	"avito-test-task/internal/lib/api/jsn"
-	"avito-test-task/internal/lib/logger/sl"
+	"avito-test-task/internal/lib/er"
 	"avito-test-task/internal/service/banner"
 )
 
@@ -50,8 +50,9 @@ func NewGetHandler(svc *banner.Service, log *slog.Logger) http.HandlerFunc {
 		}
 
 		if resErr != nil {
-			log.Error("failed to parse query params", sl.Err(resErr))
-			jsn.EncodeResponse(w, http.StatusBadRequest, api.ErrResponse(resErr.Error()), log)
+			err := er.Unwrap(resErr)
+			log.Error("failed to parse query params", slog.String("error", err))
+			jsn.EncodeResponse(w, http.StatusBadRequest, api.ErrResponse(err), log)
 			return
 		}
 
@@ -61,6 +62,7 @@ func NewGetHandler(svc *banner.Service, log *slog.Logger) http.HandlerFunc {
 			return
 		} else if errors.Is(err, banner.ErrNotFound) {
 			jsn.EncodeResponse(w, http.StatusNotFound, api.ErrResponse(err.Error()), log)
+			return
 		} else if err != nil {
 			jsn.EncodeResponse(w, http.StatusBadRequest, api.ErrResponse(err.Error()), log)
 			return

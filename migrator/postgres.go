@@ -2,16 +2,29 @@ package migrator
 
 import (
 	"context"
+	"errors"
+	"time"
 
 	"github.com/golang-migrate/migrate/v4"
 	_ "github.com/golang-migrate/migrate/v4/database/postgres"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
+	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
 
 	"avito-test-task/internal/config"
 )
 
+const (
+	maxRetries = 30
+	delay      = time.Second
+)
+
 func migratePostgres(ctx context.Context, cfg *config.Config, migrationsPath, migrationsTable string) *migrate.Migrate {
+	err := waitForPostgres(cfg.DB.ConnectionString(), maxRetries, delay)
+	if err != nil {
+		panic(err)
+	}
+
 	ensurePgsDBExists(ctx, &cfg.DB)
 	m, err := migrate.New(
 		"file://"+migrationsPath,
@@ -22,6 +35,18 @@ func migratePostgres(ctx context.Context, cfg *config.Config, migrationsPath, mi
 	}
 
 	return m
+}
+
+func waitForPostgres(url string, maxRetries int, delay time.Duration) error {
+	for range maxRetries {
+		conn, err := pgx.Connect(context.Background(), url)
+		if err == nil {
+			_ = conn.Close(context.Background())
+			return nil
+		}
+		time.Sleep(delay)
+	}
+	return errors.New("postgres didn't become available within the specified time")
 }
 
 func ensurePgsDBExists(ctx context.Context, db *config.DB) {

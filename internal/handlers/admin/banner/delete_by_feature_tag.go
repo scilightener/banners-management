@@ -20,7 +20,7 @@ func NewDeleteByFeatureTagHandler(svc *banner.Service, log *slog.Logger) http.Ha
 		)
 
 		p := r.URL.Query()
-		var fID, tID *int64
+		var fID, tID = new(int64), new(int64)
 		err := api.ParseInt64(p.Get(featureID), featureID, fID)
 		if err != nil {
 			fID = nil

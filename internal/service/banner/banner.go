@@ -177,5 +177,19 @@ func (s *Service) UpdateBanner(ctx context.Context, id int64, dto banner.UpdateD
 }
 
 func (s *Service) DeleteBannerByFeatureTag(ctx context.Context, featureID, tagID *int64) error {
+	if featureID == nil || tagID == nil {
+		return service.ValidationError("featureID or tagID or both not provided")
+	}
+
+	err := s.deleter.DeleteByFeatureTag(ctx, *featureID, *tagID)
+	if err != nil {
+		s.logger.Error("unable to delete banner by feature & tag",
+			slog.Int64("featureID", *featureID),
+			slog.Int64("tagID", *tagID),
+			sl.Err(err),
+		)
+		return ErrUnknown
+	}
+
 	return nil
 }

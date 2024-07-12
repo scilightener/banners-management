@@ -69,10 +69,11 @@ func Run() {
 	cfg := config.MustLoad(os.Args[1:], os.LookupEnv)
 	logger := initLogger(cfg.Env)
 	storage := initStorage(context.Background(), cfg.DB.ConnectionString(), logger)
-	redisClient := initRedisCache(context.Background(), cfg.Cache.ConnectionString(), logger)
+	redisClient := initRedisCache(cfg.Cache.ConnectionString(), logger)
 	jwtManager := jwt.NewManager(string(cfg.JwtSettings.SecretKey), time.Duration(cfg.JwtSettings.Expire))
 	cacheReader := banner.NewCacheReader(storage, redisClient, logger)
-	bannerService := banner.NewService(cacheReader, storage, storage, storage, logger)
+	jobDelayDeleter := banner.NewRedisChannelDeleter(context.Background(), redisClient, storage, logger)
+	bannerService := banner.NewService(cacheReader, storage, jobDelayDeleter, storage, logger)
 	app := New(logger, jwtManager, bannerService)
 	run(context.Background(), cfg, app)
 	waitForReturn(
@@ -160,7 +161,7 @@ func initStorage(ctx context.Context, connString string, logger *slog.Logger) *p
 	return storage
 }
 
-func initRedisCache(ctx context.Context, connString string, logger *slog.Logger) *redis.Cache {
+func initRedisCache(connString string, logger *slog.Logger) *redis.Cache {
 	redisClient, err := redis.NewCache(connString)
 	if err != nil {
 		logger.Error("failed to initialize redis cache", sl.Err(err))

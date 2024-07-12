@@ -27,6 +27,7 @@ type BannerReader interface {
 
 type BannerDeleter interface {
 	DeleteBanner(ctx context.Context, bannerID int64) error
+	DeleteByFeatureTag(ctx context.Context, featureID, tagID int64) error
 }
 
 type BannerUpdater interface {

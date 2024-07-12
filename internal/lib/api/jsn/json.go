@@ -23,7 +23,7 @@ func (e DecodingError) Error() string {
 func EncodeResponse(w http.ResponseWriter, statusCode int, response any, log *slog.Logger) {
 	w.WriteHeader(statusCode)
 	err := json.NewEncoder(w).Encode(response)
-	if err != nil {
+	if err != nil && !errors.Is(err, http.ErrBodyNotAllowed) {
 		log.Error("failed to encode response", sl.Err(err))
 		http.Error(w, msg.APIUnknownErr, http.StatusInternalServerError)
 	}

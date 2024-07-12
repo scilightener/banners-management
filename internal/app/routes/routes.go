@@ -35,6 +35,7 @@ func New(logger *slog.Logger, manager *jwt.Manager, bannerSvc *bannersvc.Service
 	admRouter.Handle("POST /banner", adm.NewCreateHandler(bannerSvc, logger))
 	admRouter.Handle("PATCH /banner/{id}", adm.NewUpdateHandler(bannerSvc, logger))
 	admRouter.Handle("DELETE /banner/{id}", adm.NewDeleteHandler(bannerSvc, logger))
+	admRouter.Handle("DELETE /banner", adm.NewDeleteByFeatureTagHandler(bannerSvc, logger))
 
 	router.Handle("/", middleware.EnsureAdmin(admRouter, logger))
 

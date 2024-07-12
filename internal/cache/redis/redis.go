@@ -44,13 +44,17 @@ type Cache struct {
 }
 
 // NewCache parses provided connection string and returns a ready-to-use redis client.
-func NewCache(connString string) (*Cache, error) {
+func NewCache(ctx context.Context, connString string) (*Cache, error) {
 	opt, err := redis.ParseURL(connString)
 	if err != nil {
 		return nil, fmt.Errorf("cache.redis.NewCache: %w", err)
 	}
 
 	client := redis.NewClient(opt)
+	err = client.Ping(ctx).Err()
+	if err != nil {
+		return nil, err
+	}
 	return &Cache{client: client}, nil
 }
 

@@ -66,15 +66,9 @@ func (a *App) shutdownGracefully(ctx context.Context, server *http.Server) {
 
 // Run starts the application with the default parameters.
 func Run() {
-	cfg := config.MustLoad(os.Args[1:], os.LookupEnv)
-	logger := initLogger(cfg.Env)
-	storage := initStorage(context.Background(), cfg.DB.ConnectionString(), logger)
-	redisClient := initRedisCache(cfg.Cache.ConnectionString(), logger)
-	jwtManager := jwt.NewManager(string(cfg.JwtSettings.SecretKey), time.Duration(cfg.JwtSettings.Expire))
-	cacheReader := banner.NewCacheReader(storage, redisClient, logger)
-	jobDelayDeleter := banner.NewRedisChannelDeleter(context.Background(), redisClient, storage, logger)
-	bannerService := banner.NewService(cacheReader, storage, jobDelayDeleter, storage, logger)
-	app := New(logger, jwtManager, bannerService)
+	appStartCtx, cancel := context.WithTimeout(context.Background(), 2*time.Minute)
+	defer cancel()
+	cfg, app, storage, logger := initServices(appStartCtx)
 	run(context.Background(), cfg, app)
 	waitForReturn(
 		context.Background(),
@@ -82,6 +76,22 @@ func Run() {
 		storage.Close,
 		func() { logger.Error("failed to close storage") },
 	)
+}
+
+func initServices(ctx context.Context) (*config.Config, *App, *pgs.Storage, *slog.Logger) {
+	cfg := config.MustLoad(os.Args[1:], os.LookupEnv)
+
+	logger := initLogger(cfg.Env)
+	storage := initStorage(ctx, cfg.DB.ConnectionString(), logger)
+	redisClient := initRedisCache(ctx, cfg.Cache.ConnectionString(), logger)
+	jwtManager := jwt.NewManager(string(cfg.JwtSettings.SecretKey), time.Duration(cfg.JwtSettings.Expire))
+
+	cacheReader := banner.NewCacheReader(storage, redisClient, logger)
+	jobDelayDeleter := banner.NewRedisChannelDeleter(context.Background(), redisClient, storage, logger)
+	bannerService := banner.NewService(cacheReader, storage, jobDelayDeleter, storage, logger)
+
+	app := New(logger, jwtManager, bannerService)
+	return cfg, app, storage, logger
 }
 
 // RunWithConfig starts the application with the provided configuration.
@@ -161,8 +171,8 @@ func initStorage(ctx context.Context, connString string, logger *slog.Logger) *p
 	return storage
 }
 
-func initRedisCache(connString string, logger *slog.Logger) *redis.Cache {
-	redisClient, err := redis.NewCache(connString)
+func initRedisCache(ctx context.Context, connString string, logger *slog.Logger) *redis.Cache {
+	redisClient, err := redis.NewCache(ctx, connString)
 	if err != nil {
 		logger.Error("failed to initialize redis cache", sl.Err(err))
 		os.Exit(1)

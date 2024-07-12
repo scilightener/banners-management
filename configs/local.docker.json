@@ -8,7 +8,7 @@
     "db_name": "banners-task"
   },
   "cache": {
-    "host": "localhost",
+    "host": "host.docker.internal",
     "port": 6379,
     "user": "scilightener",
     "pass": "12345678",

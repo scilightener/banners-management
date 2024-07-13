@@ -24,8 +24,7 @@ lint:
 
 docker:
 	@echo "Running docker-compose..."
-	@docker-compose up -d banners-postgres
-	@docker-compose up -d banners-api
+	@docker-compose up -d
 
 docker-down:
 	@echo "Stopping docker-compose..."

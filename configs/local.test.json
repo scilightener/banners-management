@@ -5,7 +5,7 @@
     "port": 22413,
     "user": "scilightener",
     "pass": "hell12345678yeah",
-    "db_name": "banners-task-test"
+    "db_name": "banners-task"
   },
   "cache": {
     "host": "localhost",

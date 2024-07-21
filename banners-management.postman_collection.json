@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "b26e54ed-82e0-497e-af03-4d49933b58ce",
-		"name": "avito-task-banners-scilightener",
+		"name": "banners-management",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "25308949"
 	},
@@ -14,7 +14,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTY2MTg5MzYsInJvbGUiOiJ1c2VyIn0.CPBQiRE5X4bS8-Z0Cm0BgJ0XnmdifET67GPDh9GLsjI",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjUxNTMwODEsInJvbGUiOiJ1c2VyIn0.NDTXt4_mmezwJRur3XXcNrRGwv1uFHFOfMvv-ddIpGs",
 							"type": "string"
 						}
 					]
@@ -22,7 +22,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:22313/user_banner?tag_id=1&feature_id=11",
+					"raw": "http://localhost:22313/user_banner?tag_id=1&feature_id=70",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -38,7 +38,7 @@
 						},
 						{
 							"key": "feature_id",
-							"value": "11"
+							"value": "70"
 						}
 					]
 				}
@@ -53,7 +53,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTY2MTg5NzYsInJvbGUiOiJhZG1pbiJ9.omKnLgoGJCyUxqorQ6FkPp5jEILuGOdisDmgfx8umRY",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjUxNTMwNzcsInJvbGUiOiJhZG1pbiJ9.u1BpPJ4V49l7cYB714-jIP_M3zcSmTp6sfBdqWbFn_c",
 							"type": "string"
 						}
 					]
@@ -100,7 +100,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTY2MTg5NzYsInJvbGUiOiJhZG1pbiJ9.omKnLgoGJCyUxqorQ6FkPp5jEILuGOdisDmgfx8umRY",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjUxNTMwNzcsInJvbGUiOiJhZG1pbiJ9.u1BpPJ4V49l7cYB714-jIP_M3zcSmTp6sfBdqWbFn_c",
 							"type": "string"
 						}
 					]
@@ -138,7 +138,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTY2MTg5NzYsInJvbGUiOiJhZG1pbiJ9.omKnLgoGJCyUxqorQ6FkPp5jEILuGOdisDmgfx8umRY",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjUxNTMwNzcsInJvbGUiOiJhZG1pbiJ9.u1BpPJ4V49l7cYB714-jIP_M3zcSmTp6sfBdqWbFn_c",
 							"type": "string"
 						}
 					]
@@ -177,7 +177,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTY2MTg5NzYsInJvbGUiOiJhZG1pbiJ9.omKnLgoGJCyUxqorQ6FkPp5jEILuGOdisDmgfx8umRY",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjUxNTMwNzcsInJvbGUiOiJhZG1pbiJ9.u1BpPJ4V49l7cYB714-jIP_M3zcSmTp6sfBdqWbFn_c",
 							"type": "string"
 						}
 					]
@@ -194,6 +194,45 @@
 					"path": [
 						"banner",
 						"12"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "banner",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjUxNTMwNzcsInJvbGUiOiJhZG1pbiJ9.u1BpPJ4V49l7cYB714-jIP_M3zcSmTp6sfBdqWbFn_c",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:22313/banner?tag_id=6&feature_id=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "22313",
+					"path": [
+						"banner"
+					],
+					"query": [
+						{
+							"key": "tag_id",
+							"value": "6"
+						},
+						{
+							"key": "feature_id",
+							"value": "1"
+						}
 					]
 				}
 			},

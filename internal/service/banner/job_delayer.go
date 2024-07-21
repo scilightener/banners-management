@@ -74,21 +74,26 @@ func (r *RedisChannelDeleter) runDeleterDaemon(ctx context.Context, ch <-chan *g
 		}
 
 		go func() {
-			res := new(redisDeleteMessage)
-			err := json.Unmarshal([]byte(m.Payload), res)
-			if err != nil {
-				r.logger.Error("unable to parse payload", sl.Err(err))
-				return
-			}
-
-			err = r.deleter.DeleteByFeatureTag(ctx, res.FeatureID, res.TagID)
-			if err != nil {
-				r.logger.Error("unable to delete banner by feature & tag",
-					slog.Int64("featureID", res.FeatureID),
-					slog.Int64("tagID", res.TagID),
-					sl.Err(err),
-				)
-			}
+			r.handleReceivedPayload(ctx, []byte(m.Payload))
 		}()
+	}
+}
+
+// handleReceivedPayload handles the received payload from redis channel.
+func (r *RedisChannelDeleter) handleReceivedPayload(ctx context.Context, payload []byte) {
+	res := new(redisDeleteMessage)
+	err := json.Unmarshal(payload, res)
+	if err != nil {
+		r.logger.Error("unable to parse payload", sl.Err(err))
+		return
+	}
+
+	err = r.deleter.DeleteByFeatureTag(ctx, res.FeatureID, res.TagID)
+	if err != nil {
+		r.logger.Error("unable to delete banner by feature & tag",
+			slog.Int64("featureID", res.FeatureID),
+			slog.Int64("tagID", res.TagID),
+			sl.Err(err),
+		)
 	}
 }

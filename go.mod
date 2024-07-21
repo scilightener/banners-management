@@ -5,12 +5,13 @@ go 1.22
 require (
 	github.com/brianvoe/gofakeit/v6 v6.28.0
 	github.com/gavv/httpexpect/v2 v2.16.0
-	github.com/go-playground/validator/v10 v10.19.0
+	github.com/go-playground/validator/v10 v10.22.0
 	github.com/golang-jwt/jwt/v5 v5.2.1
-	github.com/golang-migrate/migrate/v4 v4.17.0
+	github.com/golang-migrate/migrate/v4 v4.17.1
 	github.com/google/uuid v1.6.0
-	github.com/jackc/pgx/v5 v5.5.5
-	github.com/stretchr/testify v1.8.4
+	github.com/jackc/pgx/v5 v5.6.0
+	github.com/redis/go-redis/v9 v9.6.0
+	github.com/stretchr/testify v1.9.0
 )
 
 require (
@@ -43,7 +44,6 @@ require (
 	github.com/mitchellh/go-wordwrap v1.0.1 // indirect
 	github.com/nxadm/tail v1.4.11 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
-	github.com/redis/go-redis/v9 v9.5.3 // indirect
 	github.com/rogpeppe/go-internal v1.12.0 // indirect
 	github.com/sanity-io/litter v1.5.5 // indirect
 	github.com/sergi/go-diff v1.3.1 // indirect

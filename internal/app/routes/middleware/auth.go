@@ -21,7 +21,7 @@ func NewAuthorizationMiddleware(logger *slog.Logger, manager *jwt.Manager) Middl
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			token := r.Header.Get(Authorization)
 			if token == "" {
-				logger.Error("nothing in Authorization header")
+				logger.Info("nothing in Authorization header")
 				jsn.EncodeResponse(w, http.StatusUnauthorized, api.ErrResponse(msg.APINotAuthorized), logger)
 				return
 			}
@@ -30,14 +30,14 @@ func NewAuthorizationMiddleware(logger *slog.Logger, manager *jwt.Manager) Middl
 
 			err := manager.VerifyToken(token)
 			if err != nil {
-				logger.Error("invalid jwt token", sl.Err(err))
+				logger.Info("invalid jwt token", sl.Err(err))
 				jsn.EncodeResponse(w, http.StatusUnauthorized, api.ErrResponse(msg.APINotAuthorized), logger)
 				return
 			}
 
 			role, err := manager.GetRole(token)
 			if err != nil {
-				logger.Error("failed to get role from token", sl.Err(err))
+				logger.Info("failed to get role from token", sl.Err(err))
 				jsn.EncodeResponse(w, http.StatusUnauthorized, api.ErrResponse(msg.APINotAuthorized), logger)
 				return
 			}

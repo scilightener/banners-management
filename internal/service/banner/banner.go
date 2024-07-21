@@ -61,7 +61,7 @@ func (s *Service) SaveBanner(ctx context.Context, dto banner.CreateDTO) (int64, 
 	if err := validatr.Struct(dto); err != nil {
 		var validErrs validator.ValidationErrors
 		errors.As(err, &validErrs)
-		s.logger.Error("request validation failed", sl.Err(err))
+		s.logger.Info("request validation failed", sl.Err(err))
 		return 0, service.ValidationErr(validErrs)
 	}
 
@@ -69,7 +69,7 @@ func (s *Service) SaveBanner(ctx context.Context, dto banner.CreateDTO) (int64, 
 	s.logger.Info("saving banner", slog.String("title", model.Title))
 	id, err := s.saver.SaveBanner(ctx, model)
 	if errors.Is(err, repo.ErrBannerAlreadyExists) {
-		s.logger.Error("banner already exists", sl.Err(err))
+		s.logger.Info("banner already exists", sl.Err(err))
 		return 0, ErrAlreadyExists
 	} else if err != nil {
 		s.logger.Error("failed to save banner", sl.Err(err))
@@ -135,13 +135,13 @@ func (s *Service) DeleteBanner(ctx context.Context, id int64) error {
 	if err := validatr.Var(id, "required"); err != nil {
 		var validErrs validator.ValidationErrors
 		errors.As(err, &validErrs)
-		s.logger.Error("request validation failed", sl.Err(err))
+		s.logger.Info("request validation failed", sl.Err(err))
 		return service.ValidationErr(validErrs)
 	}
 
 	err := s.deleter.DeleteBanner(ctx, id)
 	if errors.Is(err, repo.ErrBannerNotFound) {
-		s.logger.Error("banner not found", sl.Err(err))
+		s.logger.Info("banner not found", sl.Err(err))
 		return ErrNotFound
 	} else if err != nil {
 		s.logger.Error("failed to delete banner", sl.Err(err))
@@ -157,7 +157,7 @@ func (s *Service) UpdateBanner(ctx context.Context, id int64, dto banner.UpdateD
 	if err := validatr.Struct(dto); err != nil {
 		var validErrs validator.ValidationErrors
 		errors.As(err, &validErrs)
-		s.logger.Error("request validation failed", sl.Err(err))
+		s.logger.Info("request validation failed", sl.Err(err))
 		return service.ValidationErr(validErrs)
 	}
 
@@ -165,10 +165,10 @@ func (s *Service) UpdateBanner(ctx context.Context, id int64, dto banner.UpdateD
 	s.logger.Info("updating banner", slog.String("id", strconv.FormatInt(id, 10)))
 	err := s.updater.UpdateBanner(ctx, model)
 	if errors.Is(err, repo.ErrBannerNotFound) {
-		s.logger.Error("banner not found", sl.Err(err))
+		s.logger.Info("banner not found", sl.Err(err))
 		return ErrNotFound
 	} else if errors.Is(err, repo.ErrBannerAlreadyExists) {
-		s.logger.Error("unable to update banner", sl.Err(err))
+		s.logger.Info("unable to update banner", sl.Err(err))
 		return ErrAlreadyExists
 	} else if err != nil {
 		s.logger.Error("failed to update banner", sl.Err(err))

@@ -24,7 +24,7 @@ func NewUpdateHandler(svc *bannersvc.Service, log *slog.Logger) http.HandlerFunc
 		var id int64
 		err := api.ParseInt64(r.PathValue("id"), "id", &id)
 		if err != nil {
-			log.Error("failed to parse id", sl.Err(err))
+			log.Info("failed to parse id", sl.Err(err))
 			jsn.EncodeResponse(w, http.StatusBadRequest, api.ErrResponse(err.Error()), log)
 			return
 		}

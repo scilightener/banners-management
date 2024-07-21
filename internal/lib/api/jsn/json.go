@@ -33,10 +33,10 @@ func EncodeResponse(w http.ResponseWriter, statusCode int, response any, log *sl
 // If an error occurs, it logs the error and returns a DecodingError.
 func DecodeRequest[T any](r *http.Request, req *T, log *slog.Logger) error {
 	if err := json.NewDecoder(r.Body).Decode(req); errors.Is(err, io.EOF) {
-		log.Error("empty request body", sl.Err(err))
+		log.Info("empty request body", sl.Err(err))
 		return DecodingError(msg.APIEmptyRequest)
 	} else if unmarshalErr := new(json.UnmarshalTypeError); errors.As(err, &unmarshalErr) {
-		log.Error("failed to decode request", sl.Err(err))
+		log.Info("failed to decode request", sl.Err(err))
 		return DecodingError(msg.ErrInvalidFieldType(unmarshalErr.Field, unmarshalErr.Value, unmarshalErr.Type.String()))
 	} else if err != nil {
 		log.Error("failed to decode request", sl.Err(err))

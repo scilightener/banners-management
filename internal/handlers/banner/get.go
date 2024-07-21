@@ -51,7 +51,7 @@ func NewGetHandler(svc *banner.Service, log *slog.Logger) http.HandlerFunc {
 
 		if resErr != nil {
 			err := er.Unwrap(resErr)
-			log.Error("failed to parse query params", slog.String("error", err))
+			log.Info("failed to parse query params", slog.String("error", err))
 			jsn.EncodeResponse(w, http.StatusBadRequest, api.ErrResponse(err), log)
 			return
 		}

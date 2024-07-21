@@ -23,7 +23,7 @@ func NewDeleteHandler(svc *banner.Service, log *slog.Logger) http.HandlerFunc {
 		var id int64
 		err := api.ParseInt64(r.PathValue("id"), "id", &id)
 		if err != nil {
-			log.Error("failed to parse query params", sl.Err(err))
+			log.Info("failed to parse query params", sl.Err(err))
 			jsn.EncodeResponse(w, http.StatusBadRequest, api.ErrResponse(err.Error()), log)
 			return
 		}

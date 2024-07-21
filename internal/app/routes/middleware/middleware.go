@@ -7,11 +7,14 @@ import (
 // Middleware is a function that wraps a http.Handler.
 type Middleware func(http.Handler) http.Handler
 
+// wrappedResponseWriter is a custom implementation of http.ResponseWriter WriteHeader method.
+// It stores information about response status code.
 type wrappedResponseWriter struct {
 	http.ResponseWriter
 	statusCode int
 }
 
+// WriteHeader writes header to the request and stores its status code.
 func (w *wrappedResponseWriter) WriteHeader(statusCode int) {
 	w.statusCode = statusCode
 	w.ResponseWriter.WriteHeader(statusCode)

@@ -49,6 +49,8 @@ func NewAuthorizationMiddleware(logger *slog.Logger, manager *jwt.Manager) Middl
 	}
 }
 
+// EnsureAdmin returns new http.Handler that checks if the incoming request authorized with admin role,
+// and if so, gives access to the calling endpoint, otherwise returns 403 Forbidden status code response.
 func EnsureAdmin(next http.Handler, logger *slog.Logger) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		role := api.UserRole(r)

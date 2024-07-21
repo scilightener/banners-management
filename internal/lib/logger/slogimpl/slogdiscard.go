@@ -1,3 +1,4 @@
+// Package slogdiscard contains a slog.Logger implementation that discards all the messages being logged.
 package slogdiscard
 
 import (
@@ -5,12 +6,15 @@ import (
 	"log/slog"
 )
 
+// NewDiscardLogger returns a new slog.Logger implementation that discards anything being logged.
 func NewDiscardLogger() *slog.Logger {
 	return slog.New(NewDiscardHandler())
 }
 
+// DiscardHandler is a struct, implementing slog.Handler so that any log being handled is discarded.
 type DiscardHandler struct{}
 
+// NewDiscardHandler return a new instance of DiscardHandler.
 func NewDiscardHandler() *DiscardHandler {
 	return &DiscardHandler{}
 }

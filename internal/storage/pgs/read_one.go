@@ -5,9 +5,10 @@ import (
 	"context"
 	"fmt"
 
-	"avito-test-task/internal/models/entity"
+	"avito-test-task/internal/model/entity"
 )
 
+// BannerByFeatureTag finds a banner by provided featureID and tagID.
 func (s *Storage) BannerByFeatureTag(
 	ctx context.Context,
 	featureID, tagID int64,

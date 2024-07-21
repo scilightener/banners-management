@@ -2,6 +2,7 @@ package entity
 
 import "time"
 
+// Banner is a banner domain entity.
 type Banner struct {
 	ID        int64
 	Title     string
@@ -14,6 +15,7 @@ type Banner struct {
 	UpdatedAt time.Time
 }
 
+// NewBanner returns a new Banner instance.
 func NewBanner(
 	title string,
 	text string,
@@ -35,6 +37,8 @@ func NewBanner(
 	}
 }
 
+// UpdatableBanner is a banner domain entity, that's being used to update a main Banner entity.
+// Pointer parameters indicate that they're optional, and are not considered during update.
 type UpdatableBanner struct {
 	ID        int64
 	Title     *string

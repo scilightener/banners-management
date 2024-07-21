@@ -7,6 +7,7 @@ import (
 	"avito-test-task/internal/storage/repo"
 )
 
+// DeleteBanner deletes banner by id.
 func (s *Storage) DeleteBanner(ctx context.Context, id int64) error {
 	const comp = "storage.pgs.DeleteBanner"
 
@@ -22,6 +23,7 @@ func (s *Storage) DeleteBanner(ctx context.Context, id int64) error {
 	return nil
 }
 
+// DeleteByFeatureTag deletes banner by featureID and tagID.
 func (s *Storage) DeleteByFeatureTag(ctx context.Context, featureID, tagID int64) error {
 	const comp = "storage.pgs.DeleteByFeatureTag"
 

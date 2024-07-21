@@ -17,6 +17,15 @@ const (
 	down = "down"
 )
 
+// Migrate applies database migration operations to the db database.
+/*
+ It uses args to read migration options, that are:
+ - "migrations-path" (required)
+ - "migrations-table" (optional, default is 'migrations')
+ - "direction" ('up' or 'down').
+
+It uses args and/or getenv function to read config for database credentials.
+*/
 func Migrate(
 	ctx context.Context,
 	out io.Writer,
@@ -58,6 +67,7 @@ func Migrate(
 	_, _ = fmt.Fprintln(out, "migrations applied")
 }
 
+// migrateUp migrates the db up and logs the migration result to out io.Writer.
 func migrateUp(m *migrate.Migrate, out io.Writer) {
 	if err := m.Up(); err != nil {
 		if errors.Is(err, migrate.ErrNoChange) {
@@ -68,6 +78,7 @@ func migrateUp(m *migrate.Migrate, out io.Writer) {
 	}
 }
 
+// migrateDown migrates the db down and logs the migration result to out io.Writer.
 func migrateDown(m *migrate.Migrate, out io.Writer) {
 	if err := m.Down(); err != nil {
 		if errors.Is(err, migrate.ErrNoChange) {

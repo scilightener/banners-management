@@ -10,8 +10,8 @@ import (
 
 	"avito-test-task/internal/lib/api/msg"
 	"avito-test-task/internal/lib/logger/sl"
-	"avito-test-task/internal/models/dto/banner"
-	"avito-test-task/internal/models/entity"
+	"avito-test-task/internal/model/dto/banner"
+	"avito-test-task/internal/model/entity"
 	"avito-test-task/internal/service"
 	"avito-test-task/internal/storage/repo"
 )
@@ -29,6 +29,7 @@ var (
 	validatr = validator.New()
 )
 
+// Service is a service for banner CRUD operations.
 type Service struct {
 	reader  repo.BannerReader
 	saver   repo.BannerSaver
@@ -37,6 +38,7 @@ type Service struct {
 	logger  *slog.Logger
 }
 
+// NewService returns a new Service instance.
 func NewService(
 	reader repo.BannerReader,
 	saver repo.BannerSaver,
@@ -176,6 +178,8 @@ func (s *Service) UpdateBanner(ctx context.Context, id int64, dto banner.UpdateD
 	return nil
 }
 
+// DeleteBannerByFeatureTag deletes a banner by provided featureID and tagID.
+// If featureID and/or tagID are nil, a new service.ValidationError is returned.
 func (s *Service) DeleteBannerByFeatureTag(ctx context.Context, featureID, tagID *int64) error {
 	if featureID == nil || tagID == nil {
 		return service.ValidationError("featureID or tagID or both not provided")

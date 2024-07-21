@@ -8,6 +8,7 @@ import (
 	"github.com/redis/go-redis/v9"
 )
 
+// Publish publishes provided message to the redis channel.
 func (c *Cache) Publish(ctx context.Context, channel string, message any) error {
 	const comp = "cache.redis.pubsub.Publish"
 	bytes, err := json.Marshal(message)
@@ -23,6 +24,7 @@ func (c *Cache) Publish(ctx context.Context, channel string, message any) error 
 	return nil
 }
 
+// Subscribe returns a go channel that produces messages, received from redis channel.
 func (c *Cache) Subscribe(ctx context.Context, channel string) <-chan *redis.Message {
 	subscriber := c.client.Subscribe(ctx, channel)
 	return subscriber.Channel()

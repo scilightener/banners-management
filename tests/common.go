@@ -9,7 +9,7 @@ import (
 	"github.com/gavv/httpexpect/v2"
 	"github.com/stretchr/testify/require"
 
-	"avito-test-task/internal/models/dto/banner"
+	"avito-test-task/internal/model/dto/banner"
 	"avito-test-task/tests/suit"
 )
 
@@ -49,6 +49,7 @@ func initTest(t *testing.T) (*httpexpect.Expect, string, string) {
 	return expect, tokenUsr, tokenAdm
 }
 
+// rawToInt64 parses f into an int64.
 func rawToInt64(f interface{}) int64 {
 	return int64(f.(float64))
 }
@@ -77,6 +78,7 @@ func getNextFeatureID() int64 {
 	return lastFeatureID
 }
 
+// newCreateBannerDTO returns a new banner.CreateDTO with random parameters.
 func newCreateBannerDTO() banner.CreateDTO {
 	return banner.CreateDTO{
 		TagIDs:    getNextTagIDs(2),
@@ -90,6 +92,7 @@ func newCreateBannerDTO() banner.CreateDTO {
 	}
 }
 
+// createBannerDTO returns a new banner.CreateDTO with the specified parameters.
 func createBannerDTO(featureID int64, tagIDs []int64, isActive bool) banner.CreateDTO {
 	return banner.CreateDTO{
 		TagIDs:    tagIDs,
@@ -103,6 +106,7 @@ func createBannerDTO(featureID int64, tagIDs []int64, isActive bool) banner.Crea
 	}
 }
 
+// newUpdateBannerDTO returns a new banner.UpdateDTO with random parameters.
 func newUpdateBannerDTO() banner.UpdateDTO {
 	tagIDs := getNextTagIDs(2)
 	title := gofakeit.Word()
@@ -123,6 +127,7 @@ func newUpdateBannerDTO() banner.UpdateDTO {
 	}
 }
 
+// updateBannerDTO returns a new banner.UpdateDTO with the specified parameters.
 func updateBannerDTO(featureID *int64, tagIDs *[]int64, isActive *bool) banner.UpdateDTO {
 	title := gofakeit.Word()
 	text := gofakeit.Word()

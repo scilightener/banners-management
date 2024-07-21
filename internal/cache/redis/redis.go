@@ -31,6 +31,7 @@ type CacheItem[T any] struct {
 	Status Status `json:"status"`
 }
 
+// NewCacheItem returns new CacheItem.
 func NewCacheItem[T any](value T, status Status) *CacheItem[T] {
 	return &CacheItem[T]{
 		Value:  value,

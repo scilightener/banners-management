@@ -3,7 +3,7 @@ package banner
 import (
 	"avito-test-task/internal/lib/api"
 	"avito-test-task/internal/lib/api/jsn"
-	bannerdto "avito-test-task/internal/models/dto/banner"
+	bannerdto "avito-test-task/internal/model/dto/banner"
 	"avito-test-task/internal/service"
 	bannersvc "avito-test-task/internal/service/banner"
 	"errors"

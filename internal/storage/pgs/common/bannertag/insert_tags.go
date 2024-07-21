@@ -5,6 +5,7 @@ import (
 	"strings"
 )
 
+// InsertTagsQuery returns an SQL query for creating tags with provided tagIDs.
 func InsertTagsQuery(bannerID int64, tagIDs []int64) string {
 	if len(tagIDs) == 0 {
 		return ""

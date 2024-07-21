@@ -19,8 +19,8 @@ func New(logger *slog.Logger, manager *jwt.Manager, bannerSvc *bannersvc.Service
 		_, _ = w.Write([]byte("OK"))
 	})
 
-	router := http.NewServeMux()
-	router.Handle("GET /user_banner", bannerhndl.NewGetHandler(bannerSvc, logger))
+	usrRouter := http.NewServeMux()
+	usrRouter.Handle("GET /user_banner", bannerhndl.NewGetHandler(bannerSvc, logger))
 
 	mw := middleware.Chain(
 		middleware.NewRecovererMiddleware(logger),
@@ -37,11 +37,11 @@ func New(logger *slog.Logger, manager *jwt.Manager, bannerSvc *bannersvc.Service
 	admRouter.Handle("DELETE /banner/{id}", adm.NewDeleteHandler(bannerSvc, logger))
 	admRouter.Handle("DELETE /banner", adm.NewDeleteByFeatureTagHandler(bannerSvc, logger))
 
-	router.Handle("/", middleware.EnsureAdmin(admRouter, logger))
+	usrRouter.Handle("/", middleware.EnsureAdmin(admRouter, logger))
 
 	mainRouter := http.NewServeMux()
 	mainRouter.Handle("GET /health", healthRouter)
-	mainRouter.Handle("/", mw(router))
+	mainRouter.Handle("/", mw(usrRouter))
 
 	return mainRouter
 }

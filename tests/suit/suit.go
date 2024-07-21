@@ -82,6 +82,8 @@ func Setup(t *testing.T) *Suit {
 	return suit
 }
 
+// waitTilReady waits til the provided endpoint becomes available (returns http.StatusOK).
+// If it wasn't become available within timeout, it returns error.
 func waitTilReady(
 	ctx context.Context,
 	timeout time.Duration,

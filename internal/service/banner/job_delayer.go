@@ -16,17 +16,20 @@ const (
 	RedisBannerDeleterByFeatureTagChannelName = "redis_deleter_job_delayer"
 )
 
+// redisDeleteMessage is a dto for a RedisChannelDeleter.
 type redisDeleteMessage struct {
 	FeatureID int64 `json:"feature_id"`
 	TagID     int64 `json:"tag_id"`
 }
 
+// RedisChannelDeleter is a decorator for repo.BannerDeleter that allows an asynchronous operation executing.
 type RedisChannelDeleter struct {
 	cache   *redis.Cache
 	deleter repo.BannerDeleter
 	logger  *slog.Logger
 }
 
+// NewRedisChannelDeleter returns a new RedisChannelDeleter instance.
 func NewRedisChannelDeleter(
 	ctx context.Context,
 	redis *redis.Cache,
@@ -44,10 +47,12 @@ func NewRedisChannelDeleter(
 	return res
 }
 
+// DeleteBanner does nothing and just proxies the request to the decorated repo.BannerDeleter.
 func (r *RedisChannelDeleter) DeleteBanner(ctx context.Context, bannerID int64) error {
 	return r.deleter.DeleteBanner(ctx, bannerID)
 }
 
+// DeleteByFeatureTag asynchronously executes operation of banner deletion by featureID and tagID.
 func (r *RedisChannelDeleter) DeleteByFeatureTag(ctx context.Context, featureID, tagID int64) error {
 	const comp = "service.banner.job_delayer"
 
@@ -61,6 +66,7 @@ func (r *RedisChannelDeleter) DeleteByFeatureTag(ctx context.Context, featureID,
 	return nil
 }
 
+// runDeleterDaemon reads channel ch and executes all the operations of banner deletion, received from this channel.
 func (r *RedisChannelDeleter) runDeleterDaemon(ctx context.Context, ch <-chan *goredis.Message) {
 	for m := range ch {
 		if m.Channel != RedisBannerDeleterByFeatureTagChannelName {

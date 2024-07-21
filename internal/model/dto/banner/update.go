@@ -1,7 +1,9 @@
 package banner
 
-import "avito-test-task/internal/models/entity"
+import "avito-test-task/internal/model/entity"
 
+// UpdateDTO is expected to be received as an update banner request.
+// Pointer parameters are optional.
 type UpdateDTO struct {
 	TagIDs    *[]int64       `json:"tag_ids"`
 	FeatureID *int64         `json:"feature_id"`
@@ -9,12 +11,15 @@ type UpdateDTO struct {
 	IsActive  *bool          `json:"is_active"`
 }
 
+// UpdateContent contains information about banner that's being updated.
+// Pointer parameters are optional.
 type UpdateContent struct {
 	Title *string `json:"title"`
 	Text  *string `json:"text"`
 	URL   *string `json:"url"`
 }
 
+// ToModel returns a new entity.UpdatableBanner constructed from UpdateDTO.
 func (d UpdateDTO) ToModel(id int64) *entity.UpdatableBanner {
 	var (
 		title *string

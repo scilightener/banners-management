@@ -10,11 +10,12 @@ import (
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgconn"
 
-	"avito-test-task/internal/models/entity"
+	"avito-test-task/internal/model/entity"
 	"avito-test-task/internal/storage/pgs/common/bannertag"
 	"avito-test-task/internal/storage/repo"
 )
 
+// UpdateBanner updates banner b in the storage.
 func (s *Storage) UpdateBanner(ctx context.Context, b *entity.UpdatableBanner) (err error) {
 	const comp = "storage.pgs.UpdateBanner"
 
@@ -65,6 +66,7 @@ func (s *Storage) UpdateBanner(ctx context.Context, b *entity.UpdatableBanner) (
 	return nil
 }
 
+// buildUpdateBannerQuery returns an SQL query for updating banner b and a slice of parameters for this query.
 func buildUpdateBannerQuery(b *entity.UpdatableBanner) (string, []any) {
 	var (
 		args = make([]any, 0)

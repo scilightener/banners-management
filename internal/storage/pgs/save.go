@@ -8,7 +8,7 @@ import (
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgconn"
 
-	"avito-test-task/internal/models/entity"
+	"avito-test-task/internal/model/entity"
 	"avito-test-task/internal/storage/pgs/common/bannertag"
 	"avito-test-task/internal/storage/repo"
 )

@@ -8,7 +8,7 @@ import (
 
 	"avito-test-task/internal/lib/api"
 	"avito-test-task/internal/lib/api/jsn"
-	"avito-test-task/internal/models/entity"
+	"avito-test-task/internal/model/entity"
 	"avito-test-task/internal/service/banner"
 )
 

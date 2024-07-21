@@ -78,6 +78,7 @@ func Run() {
 	)
 }
 
+// initServices initializes all required services for the main application.
 func initServices(ctx context.Context) (*config.Config, *App, *pgs.Storage, *slog.Logger) {
 	cfg := config.MustLoad(os.Args[1:], os.LookupEnv)
 
@@ -171,6 +172,7 @@ func initStorage(ctx context.Context, connString string, logger *slog.Logger) *p
 	return storage
 }
 
+// initRedisCache initializes the application cache.
 func initRedisCache(ctx context.Context, connString string, logger *slog.Logger) *redis.Cache {
 	redisClient, err := redis.NewCache(ctx, connString)
 	if err != nil {

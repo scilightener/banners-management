@@ -26,6 +26,7 @@ func (d Cache) String() string {
 	)
 }
 
+// ConnectionString returns a connection string to redis in a canonical form.
 func (d Cache) ConnectionString() string {
 	return fmt.Sprintf(
 		"redis://%s:%s@%s/%d",

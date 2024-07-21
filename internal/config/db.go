@@ -27,6 +27,7 @@ func (d DB) String() string {
 }
 
 // DSN returns the data source name for the database connection. It is used by the pgx library.
+// It is appended with sslmode=disable option.
 func (d DB) DSN() string {
 	return fmt.Sprintf(
 		"host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
@@ -38,6 +39,8 @@ func (d DB) DSN() string {
 	)
 }
 
+// ConnectionString returns a connection string to the database in a canonical form.
+// It is appended with sslmode=disable option.
 func (d DB) ConnectionString() string {
 	return fmt.Sprintf(
 		"postgres://%s:%s@%s/%s?sslmode=disable",

@@ -327,3 +327,53 @@ paths:
                 properties:
                   error:
                     type: string
+
+  /banner/:
+    delete:
+      summary: Удаление баннера по фиче и тегу
+      parameters:
+        - in: query
+          name: tag_id
+          required: true
+          schema:
+            type: integer
+            description: Идентификатор тега
+        - in: query
+          name: feature_id
+          required: true
+          schema:
+            type: integer
+            description: Идентификатор фичи
+        - in: header
+          name: token
+          description: Токен администратора
+          schema:
+            type: string
+            example: "admin_token"
+      responses:
+        '204':
+          description: Запрос на удаление получен и обработан
+        '400':
+          description: Некорректные данные
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        '401':
+          description: Пользователь не авторизован
+        '403':
+          description: Пользователь не имеет доступа
+        '404':
+          description: Баннер для удаления не найден
+        '500':
+          description: Внутренняя ошибка сервера
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string

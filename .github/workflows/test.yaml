@@ -19,8 +19,8 @@ jobs:
 
       - name: Install make
         run: |
-          apt-get update
-          apt-get install -y make
+          sudo apt-get update
+          sudo apt-get install -y make
 
       - name: Install golangci-lint
         run: |
@@ -47,11 +47,11 @@ jobs:
 
       - name: Install make
         run: |
-          apt-get update
-          apt-get install -y make
+          sudo apt-get update
+          sudo apt-get install -y make
 
       - name: Install docker-compose
-        run: apt-get install -y docker-compose
+        run: sudo apt-get install -y docker-compose
 
       - name: Run Tests
         run: make test

@@ -25,8 +25,8 @@ type Config struct {
 }
 
 func (c Config) String() string {
-	return fmt.Sprintf("{Env: %s, DB: %s, JwtSettings: %s, HTTPServer: %s}",
-		c.Env, c.DB, c.JwtSettings, c.HTTPServer)
+	return fmt.Sprintf("{Env: %s, DB: %s, Cache: %s, JwtSettings: %s, HTTPServer: %s}",
+		c.Env, c.DB, c.Cache, c.JwtSettings, c.HTTPServer)
 }
 
 // MustLoad reads the configuration from the file specified from the command line 'config' argument

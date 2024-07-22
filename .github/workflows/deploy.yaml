@@ -1,0 +1,51 @@
+name: deploy
+
+on:
+  workflow_run:
+    workflows: ["test"]
+    types:
+      - completed
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      HOST: root@${{ secrets.HOST }}
+      DEPLOY_DIRECTORY: /root/apps/banners-management
+      CONFIG_PATH: /root/apps/banners-management/configs/prod.docker.json
+      ENV_FILE_PATH: /root/apps/banners-management/.env
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Configure ssh
+        run: mkdir -p ~/.ssh && touch ~/.ssh/known_hosts && ssh-keyscan -p ${{ secrets.REMOTE_SSH_PORT }} -H ${{ secrets.HOST }} >> ~/.ssh/known_hosts
+      - name: Deploy to remote server
+        run: |
+          apt-get update
+          apt-get install -y ssh rsync
+          echo "$DEPLOY_SSH_KEY" > deploy_key.pem
+          chmod 600 deploy_key.pem
+          ssh -i deploy_key.pem -p ${{ secrets.REMOTE_SSH_PORT }} -o StrictHostKeyChecking=no ${{ env.HOST }} "mkdir -p ${{ env.DEPLOY_DIRECTORY }}"
+          rsync -avz -e 'ssh -i deploy_key.pem -p ${{ secrets.REMOTE_SSH_PORT }} -o StrictHostKeyChecking=no' --exclude='.git' ./ ${{ env.HOST }}:${{ env.DEPLOY_DIRECTORY }}
+        env:
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+      - name: Create environment file on server
+        run: |
+          ssh -i deploy_key.pem -p ${{ secrets.REMOTE_SSH_PORT }} -o StrictHostKeyChecking=no ${{ env.HOST }} "\
+          touch ${{ env.ENV_FILE_PATH }} && \
+          chmod 600 ${{ env.ENV_FILE_PATH }} && \
+          echo 'POSTGRES_PASS=${{ secrets.POSTGRES_PASS }}' > ${{ env.ENV_FILE_PATH }} && \
+          echo 'REDIS_PASS=${{ secrets.REDIS_PASS }}' >> ${{ env.ENV_FILE_PATH }}"
+      - name: Substitute .env variables into a config file
+        run: |
+          ssh -i deploy_key.pem -p ${{ secrets.REMOTE_SSH_PORT }} -o StrictHostKeyChecking=no ${{ env.HOST }} "\
+          cd ${{ env.DEPLOY_DIRECTORY }} && \
+          sh prod.substenv.sh"
+      - name: Start application
+        run: |
+          ssh -i deploy_key.pem -p ${{ secrets.REMOTE_SSH_PORT }} -o StrictHostKeyChecking=no ${{ env.HOST }} "\
+          cd ${{ env.DEPLOY_DIRECTORY }} && \
+          docker-compose -f prod.docker-compose.yaml stop banners-api && \
+          docker-compose -f prod.docker-compose.yaml rm -f banners-api && \
+          docker-compose -f prod.docker-compose.yaml up -d --build"

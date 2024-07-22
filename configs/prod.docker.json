@@ -1,0 +1,26 @@
+{
+  "env": "prod",
+  "db": {
+    "host": "banners.postgres",
+    "port": 5432,
+    "user": "scilightener",
+    "pass": "${POSTGRES_PASS}",
+    "db_name": "banners-task"
+  },
+  "cache": {
+    "host": "banners.redis",
+    "port": 6379,
+    "user": "scilightener",
+    "pass": "${REDIS_PASS}",
+    "db_name": 0
+  },
+  "jwt_settings": {
+    "secret": "somemegasecuresecretkeysosecurethatnooneknowstrala1alalaIaLOLOL0",
+    "expire": "2h"
+  },
+  "http_server": {
+    "address": "0.0.0.0:22313",
+    "timeout": "3s",
+    "idle_timeout": "30s"
+  }
+}

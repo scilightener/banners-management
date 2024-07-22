@@ -3,6 +3,7 @@ package migrator
 import (
 	"context"
 	"errors"
+	"fmt"
 	"time"
 
 	"github.com/golang-migrate/migrate/v4"
@@ -49,6 +50,7 @@ func waitForPostgres(url string, maxRetries int, delay time.Duration) error {
 			_ = conn.Close(context.Background())
 			return nil
 		}
+		fmt.Println(err)
 		time.Sleep(delay)
 	}
 	return errors.New("postgres didn't become available within the specified time")

@@ -18,14 +18,3 @@ services:
       sh -c "echo 'user scilightener on >12345678 ~* &* +@all' > /tmp/redis-users.acl && 
             echo 'user default off' >> /tmp/redis-users.acl && 
             redis-server --aclfile /tmp/redis-users.acl"
-
-  banners-api:
-    image: banners-api
-    build:
-      context: .
-      dockerfile: local.Dockerfile
-    ports:
-      - "22313:22313"
-    depends_on:
-      - banners-postgres
-      - banners-redis

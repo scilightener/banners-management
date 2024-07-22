@@ -24,20 +24,24 @@ lint:
 
 docker:
 	@echo "Running docker-compose..."
-	@docker-compose up -d
+	@docker-compose -f local.docker-compose.yaml up -d
 
 docker-down:
 	@echo "Stopping docker-compose..."
-	@docker-compose down --remove-orphans
+	@docker-compose -f local.docker-compose.yaml down --remove-orphans
 
 docker-deps:
 	@echo "Running dependencies in docker..."
-	@docker-compose -f local.docker-compose.yaml up -d
+	@docker-compose -f deps.docker-compose.yaml up -d
 	@CONFIG_PATH=./configs/local.docker.deps.json go run ./cmd/migrator -migrations-path ./migrations -direction up
 
 docker-deps-down:
 	@echo "Stopping dependencies in docker..."
-	@docker-compose -f local.docker-compose.yaml down --remove-orphans
+	@docker-compose -f deps.docker-compose.yaml down --remove-orphans
+
+run-docker-deps:
+	@echo "Running server (docker-deps)..."
+	@CONFIG_PATH=./configs/local.docker.deps.json go run ./cmd/app
 
 test: docker-deps
 	@echo "Running tests..."

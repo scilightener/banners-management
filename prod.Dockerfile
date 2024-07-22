@@ -7,8 +7,8 @@ RUN go mod download && go mod verify
 COPY . .
 
 FROM init as build
-RUN CGO_ENABLED=0 go build -v -o migrator-tool ./cmd/migrator
-RUN CGO_ENABLED=0 go build -v -o app ./cmd/app
+RUN CGO_ENABLED=0 go build -o migrator-tool ./cmd/migrator
+RUN CGO_ENABLED=0 go build -o app ./cmd/app
 
 FROM alpine
 RUN echo '#!/bin/sh' > /entrypoint.sh && \
@@ -20,7 +20,7 @@ COPY --from=build /app/migrator-tool /opt/app/migrator-tool
 COPY --from=init /app/migrations /opt/app/migrations
 
 COPY --from=build /app/app /opt/app/server
-COPY --from=build /app/configs/local.docker.json /opt/app/config.json
+COPY --from=build /app/configs/prod.docker.json /opt/app/config.json
 
 ENV CONFIG_PATH=/opt/app/config.json
 EXPOSE 22313

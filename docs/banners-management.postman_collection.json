@@ -46,6 +46,34 @@
 			"response": []
 		},
 		{
+			"name": "token",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:22313/token?role=user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "22313",
+					"path": [
+						"token"
+					],
+					"query": [
+						{
+							"key": "role",
+							"value": "user"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "banner",
 			"request": {
 				"auth": {
@@ -61,7 +89,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:22313/banner?tag_id=6&feature_id=1&limit=20&offset=0",
+					"raw": "http://localhost:22313/banner?limit=20&offset=0",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -71,14 +99,6 @@
 						"banner"
 					],
 					"query": [
-						{
-							"key": "tag_id",
-							"value": "6"
-						},
-						{
-							"key": "feature_id",
-							"value": "1"
-						},
 						{
 							"key": "limit",
 							"value": "20"

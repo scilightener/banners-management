@@ -6,6 +6,7 @@ import (
 
 	"banners-management/internal/app/routes/middleware"
 	adm "banners-management/internal/handlers/admin/banner"
+	"banners-management/internal/handlers/auth"
 	bannerhndl "banners-management/internal/handlers/banner"
 	"banners-management/internal/lib/jwt"
 	bannersvc "banners-management/internal/service/banner"
@@ -27,6 +28,9 @@ func New(logger *slog.Logger, manager *jwt.Manager, bannerSvc *bannersvc.Service
 		middleware.RequestIDMiddleware,
 		middleware.NewLoggingMiddleware(logger),
 		middleware.ContentTypeJSONMiddleware,
+	)
+	authMw := middleware.Chain(
+		mw,
 		middleware.NewAuthorizationMiddleware(logger, manager),
 	)
 
@@ -41,7 +45,8 @@ func New(logger *slog.Logger, manager *jwt.Manager, bannerSvc *bannersvc.Service
 
 	mainRouter := http.NewServeMux()
 	mainRouter.Handle("GET /health", healthRouter)
-	mainRouter.Handle("/", mw(usrRouter))
+	mainRouter.Handle("GET /token", mw(auth.NewAuthHandler(manager, logger)))
+	mainRouter.Handle("/", authMw(usrRouter))
 
 	return mainRouter
 }

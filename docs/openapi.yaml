@@ -3,6 +3,44 @@ info:
   title: Сервис баннеров
   version: 1.0.0
 paths:
+  /token:
+    get:
+      summary: Получение токена с нужной ролью
+      parameters:
+        - in: query
+          name: role
+          required: true
+          schema:
+            type: string
+            description: Название роли, токен которой необходимо получить
+      responses:
+        '200':
+          description: JWT-токен с нужной ролью
+          content:
+            application/json:
+              schema:
+                description: JWT-токен с нужной ролью
+                type: object
+                additionalProperties: true
+                example: '{"token": "admin"}'
+        '400':
+          description: Некорректные данные (параметр роли не указан)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        '500':
+          description: Внутренняя ошибка сервера
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
   /user_banner:
     get:
       summary: Получение баннера для пользователя

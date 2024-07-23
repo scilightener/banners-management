@@ -13,7 +13,7 @@ jobs:
       HOST: root@${{ secrets.HOST }}
       DEPLOY_DIRECTORY: /root/apps/banners-management
       CONFIG_PATH: /root/apps/banners-management/config/prod.docker.json
-      ENV_FILE_PATH: /root/apps/banners-management/.env
+      ENV_FILE_PATH: /root/apps/banners-management/docker/.env
 
     steps:
       - name: Checkout repository

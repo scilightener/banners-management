@@ -3,7 +3,7 @@ package repo
 import (
 	"context"
 
-	"avito-test-task/internal/model/entity"
+	"banners-management/internal/model/entity"
 )
 
 // BannerSaver is an interface that supports banner creating.

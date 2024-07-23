@@ -10,13 +10,13 @@ import (
 	"syscall"
 	"time"
 
-	"avito-test-task/internal/app/routes"
-	"avito-test-task/internal/cache/redis"
-	"avito-test-task/internal/config"
-	"avito-test-task/internal/lib/jwt"
-	"avito-test-task/internal/lib/logger/sl"
-	"avito-test-task/internal/service/banner"
-	"avito-test-task/internal/storage/pgs"
+	"banners-management/internal/app/routes"
+	"banners-management/internal/cache/redis"
+	"banners-management/internal/config"
+	"banners-management/internal/lib/jwt"
+	"banners-management/internal/lib/logger/sl"
+	"banners-management/internal/service/banner"
+	"banners-management/internal/storage/pgs"
 )
 
 // App is the main application structure. It holds all the dependencies and the server.

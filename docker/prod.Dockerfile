@@ -20,7 +20,7 @@ COPY --from=build /app/migrator-tool /opt/app/migrator-tool
 COPY --from=init /app/migrations /opt/app/migrations
 
 COPY --from=build /app/app /opt/app/server
-COPY --from=build /app/configs/local.docker.json /opt/app/config.json
+COPY --from=build /app/config/prod.docker.json /opt/app/config.json
 
 ENV CONFIG_PATH=/opt/app/config.json
 EXPOSE 22313

@@ -1,6 +1,6 @@
 package banner
 
-import "avito-test-task/internal/model/entity"
+import "banners-management/internal/model/entity"
 
 // UpdateDTO is expected to be received as an update banner request.
 // Pointer parameters are optional.

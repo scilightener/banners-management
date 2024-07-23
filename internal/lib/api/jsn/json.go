@@ -1,8 +1,8 @@
 package jsn
 
 import (
-	"avito-test-task/internal/lib/api/msg"
-	"avito-test-task/internal/lib/logger/sl"
+	"banners-management/internal/lib/api/msg"
+	"banners-management/internal/lib/logger/sl"
 	"encoding/json"
 	"errors"
 	"io"

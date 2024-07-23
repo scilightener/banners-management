@@ -1,7 +1,7 @@
 package main
 
 import (
-	"avito-test-task/migrator"
+	"banners-management/migrator"
 	"context"
 	"os"
 )

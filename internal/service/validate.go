@@ -5,7 +5,7 @@ import (
 
 	"github.com/go-playground/validator/v10"
 
-	"avito-test-task/internal/lib/api/msg"
+	"banners-management/internal/lib/api/msg"
 )
 
 // ValidationError is a custom error type for validation errors.

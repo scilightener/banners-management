@@ -5,10 +5,10 @@ import (
 	"log/slog"
 	"net/http"
 
-	"avito-test-task/internal/lib/api"
-	"avito-test-task/internal/lib/api/jsn"
-	"avito-test-task/internal/lib/er"
-	"avito-test-task/internal/service/banner"
+	"banners-management/internal/lib/api"
+	"banners-management/internal/lib/api/jsn"
+	"banners-management/internal/lib/er"
+	"banners-management/internal/service/banner"
 )
 
 const (

@@ -10,9 +10,9 @@ import (
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgconn"
 
-	"avito-test-task/internal/model/entity"
-	"avito-test-task/internal/storage/pgs/common/bannertag"
-	"avito-test-task/internal/storage/repo"
+	"banners-management/internal/model/entity"
+	"banners-management/internal/storage/pgs/common/bannertag"
+	"banners-management/internal/storage/repo"
 )
 
 // UpdateBanner updates banner b in the storage.

@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"strings"
 
-	"avito-test-task/internal/model/entity"
+	"banners-management/internal/model/entity"
 )
 
 // BannersByFeatureTag returns slice of banners associated with given feature and tag.

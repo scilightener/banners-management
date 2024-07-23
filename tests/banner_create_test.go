@@ -6,7 +6,7 @@ import (
 
 	"github.com/brianvoe/gofakeit/v6"
 
-	"avito-test-task/internal/model/dto/banner"
+	"banners-management/internal/model/dto/banner"
 )
 
 func TestBannerCreate_AsUser_Fail(t *testing.T) {

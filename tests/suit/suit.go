@@ -10,13 +10,13 @@ import (
 	"testing"
 	"time"
 
-	"avito-test-task/internal/app"
-	"avito-test-task/internal/config"
-	"avito-test-task/internal/lib/jwt"
-	slogdiscard "avito-test-task/internal/lib/logger/slogimpl"
-	"avito-test-task/internal/service/banner"
-	"avito-test-task/internal/storage/pgs"
-	"avito-test-task/migrator"
+	"banners-management/internal/app"
+	"banners-management/internal/config"
+	"banners-management/internal/lib/jwt"
+	slogdiscard "banners-management/internal/lib/logger/slogimpl"
+	"banners-management/internal/service/banner"
+	"banners-management/internal/storage/pgs"
+	"banners-management/migrator"
 )
 
 var (
@@ -42,7 +42,7 @@ func Setup(t *testing.T) *Suit {
 		args := []string{"-migrations-path", "../migrations", "-direction", "up"}
 		getenv := func(s string) (string, bool) {
 			if s == "CONFIG_PATH" {
-				return "../configs/local.test.json", true
+				return "../config/local.test.json", true
 			}
 
 			return "", false

@@ -1,11 +1,11 @@
 package banner
 
 import (
-	"avito-test-task/internal/lib/api"
-	"avito-test-task/internal/lib/api/jsn"
-	bannerdto "avito-test-task/internal/model/dto/banner"
-	"avito-test-task/internal/service"
-	bannersvc "avito-test-task/internal/service/banner"
+	"banners-management/internal/lib/api"
+	"banners-management/internal/lib/api/jsn"
+	bannerdto "banners-management/internal/model/dto/banner"
+	"banners-management/internal/service"
+	bannersvc "banners-management/internal/service/banner"
 	"errors"
 	"log/slog"
 	"net/http"

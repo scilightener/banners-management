@@ -1,8 +1,8 @@
 package main
 
 import (
-	"avito-test-task/internal/config"
-	"avito-test-task/internal/lib/jwt"
+	"banners-management/internal/config"
+	"banners-management/internal/lib/jwt"
 	"flag"
 	"fmt"
 	"io"

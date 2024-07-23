@@ -1,11 +1,11 @@
 package pgs
 
 import (
-	"avito-test-task/internal/storage/repo"
+	"banners-management/internal/storage/repo"
 	"context"
 	"fmt"
 
-	"avito-test-task/internal/model/entity"
+	"banners-management/internal/model/entity"
 )
 
 // BannerByFeatureTag finds a banner by provided featureID and tagID.

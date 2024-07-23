@@ -7,9 +7,9 @@ import (
 
 	goredis "github.com/redis/go-redis/v9"
 
-	"avito-test-task/internal/cache/redis"
-	"avito-test-task/internal/lib/logger/sl"
-	"avito-test-task/internal/storage/repo"
+	"banners-management/internal/cache/redis"
+	"banners-management/internal/lib/logger/sl"
+	"banners-management/internal/storage/repo"
 )
 
 const (

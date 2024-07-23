@@ -1,4 +1,4 @@
-module avito-test-task
+module banners-management
 
 go 1.22
 

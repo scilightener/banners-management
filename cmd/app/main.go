@@ -1,6 +1,6 @@
 package main
 
-import "avito-test-task/internal/app"
+import "banners-management/internal/app"
 
 func main() {
 	app.Run()

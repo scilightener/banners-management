@@ -1,8 +1,8 @@
 package api
 
 import (
-	"avito-test-task/internal/lib/api/jsn"
-	"avito-test-task/internal/lib/api/msg"
+	"banners-management/internal/lib/api/jsn"
+	"banners-management/internal/lib/api/msg"
 	"strconv"
 )
 

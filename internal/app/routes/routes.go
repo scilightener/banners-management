@@ -4,11 +4,11 @@ import (
 	"log/slog"
 	"net/http"
 
-	"avito-test-task/internal/app/routes/middleware"
-	adm "avito-test-task/internal/handlers/admin/banner"
-	bannerhndl "avito-test-task/internal/handlers/banner"
-	"avito-test-task/internal/lib/jwt"
-	bannersvc "avito-test-task/internal/service/banner"
+	"banners-management/internal/app/routes/middleware"
+	adm "banners-management/internal/handlers/admin/banner"
+	bannerhndl "banners-management/internal/handlers/banner"
+	"banners-management/internal/lib/jwt"
+	bannersvc "banners-management/internal/service/banner"
 )
 
 // New creates a new router with all the middlewares.

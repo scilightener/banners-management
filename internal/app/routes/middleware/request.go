@@ -5,7 +5,7 @@ import (
 
 	"github.com/google/uuid"
 
-	"avito-test-task/internal/lib/api"
+	"banners-management/internal/lib/api"
 )
 
 // RequestIDMiddleware is a middleware that adds a unique request ID to each request.

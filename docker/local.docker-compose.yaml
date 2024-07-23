@@ -22,7 +22,7 @@ services:
   banners-api:
     image: banners-api
     build:
-      context: .
+      context: ..
       dockerfile: local.Dockerfile
     ports:
       - "22313:22313"

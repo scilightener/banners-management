@@ -9,8 +9,8 @@ import (
 	"github.com/gavv/httpexpect/v2"
 	"github.com/stretchr/testify/require"
 
-	"avito-test-task/internal/model/dto/banner"
-	"avito-test-task/tests/suit"
+	"banners-management/internal/model/dto/banner"
+	"banners-management/tests/suit"
 )
 
 var (

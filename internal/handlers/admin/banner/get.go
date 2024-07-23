@@ -6,10 +6,10 @@ import (
 	"net/http"
 	"time"
 
-	"avito-test-task/internal/lib/api"
-	"avito-test-task/internal/lib/api/jsn"
-	"avito-test-task/internal/model/entity"
-	"avito-test-task/internal/service/banner"
+	"banners-management/internal/lib/api"
+	"banners-management/internal/lib/api/jsn"
+	"banners-management/internal/model/entity"
+	"banners-management/internal/service/banner"
 )
 
 const (

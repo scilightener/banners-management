@@ -12,7 +12,7 @@ jobs:
     env:
       HOST: root@${{ secrets.HOST }}
       DEPLOY_DIRECTORY: /root/apps/banners-management
-      CONFIG_PATH: /root/apps/banners-management/configs/prod.docker.json
+      CONFIG_PATH: /root/apps/banners-management/config/prod.docker.json
       ENV_FILE_PATH: /root/apps/banners-management/.env
 
     steps:
@@ -41,11 +41,11 @@ jobs:
         run: |
           ssh -i deploy_key.pem -p ${{ secrets.REMOTE_SSH_PORT }} -o StrictHostKeyChecking=no ${{ env.HOST }} "\
           cd ${{ env.DEPLOY_DIRECTORY }} && \
-          sh prod.substenv.sh"
+          sh ./docker/prod.substenv.sh"
       - name: Start application
         run: |
           ssh -i deploy_key.pem -p ${{ secrets.REMOTE_SSH_PORT }} -o StrictHostKeyChecking=no ${{ env.HOST }} "\
           cd ${{ env.DEPLOY_DIRECTORY }} && \
-          docker-compose -f prod.docker-compose.yaml stop banners-api && \
-          docker-compose -f prod.docker-compose.yaml rm -f banners-api && \
-          docker-compose -f prod.docker-compose.yaml up -d --build"
+          docker-compose -f docker/prod.docker-compose.yaml stop banners-api && \
+          docker-compose -f docker/prod.docker-compose.yaml rm -f banners-api && \
+          docker-compose -f docker/prod.docker-compose.yaml up -d --build"

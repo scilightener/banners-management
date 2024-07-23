@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	"avito-test-task/internal/lib/api"
+	"banners-management/internal/lib/api"
 	"log/slog"
 	"net/http"
 	"time"

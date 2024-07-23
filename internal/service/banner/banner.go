@@ -8,12 +8,12 @@ import (
 
 	"github.com/go-playground/validator/v10"
 
-	"avito-test-task/internal/lib/api/msg"
-	"avito-test-task/internal/lib/logger/sl"
-	"avito-test-task/internal/model/dto/banner"
-	"avito-test-task/internal/model/entity"
-	"avito-test-task/internal/service"
-	"avito-test-task/internal/storage/repo"
+	"banners-management/internal/lib/api/msg"
+	"banners-management/internal/lib/logger/sl"
+	"banners-management/internal/model/dto/banner"
+	"banners-management/internal/model/entity"
+	"banners-management/internal/service"
+	"banners-management/internal/storage/repo"
 )
 
 var (

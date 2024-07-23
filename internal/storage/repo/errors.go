@@ -3,7 +3,7 @@ package repo
 import (
 	"errors"
 
-	"avito-test-task/internal/lib/api/msg"
+	"banners-management/internal/lib/api/msg"
 )
 
 var (

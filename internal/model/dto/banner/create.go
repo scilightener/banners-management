@@ -1,6 +1,6 @@
 package banner
 
-import "avito-test-task/internal/model/entity"
+import "banners-management/internal/model/entity"
 
 // CreateDTO is expected to be received as a create banner request.
 type CreateDTO struct {

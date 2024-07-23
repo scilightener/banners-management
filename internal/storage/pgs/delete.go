@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"avito-test-task/internal/storage/repo"
+	"banners-management/internal/storage/repo"
 )
 
 // DeleteBanner deletes banner by id.

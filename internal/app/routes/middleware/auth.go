@@ -1,11 +1,11 @@
 package middleware
 
 import (
-	"avito-test-task/internal/lib/api"
-	"avito-test-task/internal/lib/api/jsn"
-	"avito-test-task/internal/lib/api/msg"
-	"avito-test-task/internal/lib/jwt"
-	"avito-test-task/internal/lib/logger/sl"
+	"banners-management/internal/lib/api"
+	"banners-management/internal/lib/api/jsn"
+	"banners-management/internal/lib/api/msg"
+	"banners-management/internal/lib/jwt"
+	"banners-management/internal/lib/logger/sl"
 	"log/slog"
 	"net/http"
 	"strings"

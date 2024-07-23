@@ -9,7 +9,7 @@ import (
 
 	"github.com/golang-migrate/migrate/v4"
 
-	"avito-test-task/internal/config"
+	"banners-management/internal/config"
 )
 
 const (

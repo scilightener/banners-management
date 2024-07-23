@@ -7,10 +7,10 @@ import (
 	"strconv"
 	"time"
 
-	"avito-test-task/internal/cache/redis"
-	"avito-test-task/internal/lib/logger/sl"
-	"avito-test-task/internal/model/entity"
-	"avito-test-task/internal/storage/repo"
+	"banners-management/internal/cache/redis"
+	"banners-management/internal/lib/logger/sl"
+	"banners-management/internal/model/entity"
+	"banners-management/internal/storage/repo"
 )
 
 const (
